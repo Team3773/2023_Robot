@@ -18,6 +18,8 @@ public class ArmExtendPIDCommand extends CommandBase{
     }
     @Override
     public void initialize() {
+        pidController.reset();
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -31,6 +33,7 @@ public class ArmExtendPIDCommand extends CommandBase{
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        armExtendSubsystem.stopMotor();
     }
 
     // Returns true when the command should end.

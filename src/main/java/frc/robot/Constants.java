@@ -98,6 +98,10 @@ public final class Constants {
       public static final double kArmExtendSetpoint = 0;
       public static final double kElevatorSetpoint = 0;
       public static final double kClawSetpoint = 0;
+
+      // CHANGE VALUES BASED ON ENCODER READINGS
+      public static final double kElevatorBottomPosition = -1.0;
+      public static final double kElevatorTopPosition = 1.0;
     }
 
     public static final class AutoConstants {

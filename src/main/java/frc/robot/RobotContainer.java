@@ -66,7 +66,6 @@ public class RobotContainer {
     private final XboxController driverJoytick = new XboxController(OIConstants.kDriverControllerPort);
     private final XboxController operatorJoystick = new XboxController(OIConstants.kOperatorControllerPort);
 
-
     public RobotContainer() {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
@@ -75,9 +74,12 @@ public class RobotContainer {
                 () -> driverJoytick.getRightX(), // right x
                 () -> !driverJoytick.getLeftBumper()));
 
-          clawSubsystem.setDefaultCommand(new ClawCommand(clawSubsystem, operatorJoystick.getRightTriggerAxis(), operatorJoystick.getLeftTriggerAxis()));
-          armExtendSubsystem.setDefaultCommand(new ArmExtendCommand(armExtendSubsystem, operatorJoystick.getRightY()));
-          armRotateSubsystem.setDefaultCommand(new ArmRotateCommand(armRotateSubsystem, operatorJoystick.getLeftY()));
+        // Open claw with right trigger axis. Close claw with left trigger axis.
+        clawSubsystem.setDefaultCommand(new ClawCommand(clawSubsystem, operatorJoystick.getRightTriggerAxis(), operatorJoystick.getLeftTriggerAxis()));
+        // Extend or retract arm with right y-axis.
+        armExtendSubsystem.setDefaultCommand(new ArmExtendCommand(armExtendSubsystem, operatorJoystick.getRightY()));
+        // Rotate arm with left y-axis.
+        armRotateSubsystem.setDefaultCommand(new ArmRotateCommand(armRotateSubsystem, operatorJoystick.getLeftY()));
 
         configureButtonBindings();
     }
@@ -88,6 +90,7 @@ public class RobotContainer {
 
         driverButtonA = new JoystickButton(driverJoytick, 1);
 
+        // buttonY.whileTrue(new ElevatorPIDCommand(elevatorSubsystem, 0));
         buttonY.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(1), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
         buttonA.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(-1), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
 
