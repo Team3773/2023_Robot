@@ -1,17 +1,22 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
+
 import frc.robot.Constants.OperationConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ElevatorSubsystem extends SubsystemBase{
-    WPI_TalonSRX elevatorMotor = new WPI_TalonSRX(OperationConstants.elevatorMotorChannel);
+    CANSparkMax elevatorMotor = new CANSparkMax(OperationConstants.elevatorMotorChannel, MotorType.kBrushless);
+    RelativeEncoder elvatorEncoder = elevatorMotor.getEncoder();
 
     public ElevatorSubsystem() {
       }
     
       @Override
       public void periodic() {
+        elvatorEncoder.setPositionConversionFactor(OperationConstants.kElevatorEncoderRot2Meter);
         // This method will be called once per scheduler run
       }
     
@@ -27,5 +32,9 @@ public class ElevatorSubsystem extends SubsystemBase{
       public void stopMotor()
       {
         elevatorMotor.set(0);
+      }
+
+      public double getEncoderMeters() {
+        return elvatorEncoder.getPosition();
       }
 }

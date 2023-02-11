@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.OperationConstants;
 
@@ -11,9 +12,11 @@ public class ArmExtendSubsystem extends SubsystemBase{
     public ArmExtendSubsystem() {
       }
       CANSparkMax armExtendMotor = new CANSparkMax(OperationConstants.armExtendMotorChannel, MotorType.kBrushless);
+      RelativeEncoder armExtendEncoder = armExtendMotor.getEncoder();
     
       @Override
       public void periodic() {
+        armExtendEncoder.setPositionConversionFactor(OperationConstants.kArmExtendEncoderRot2Meter);
         // This method will be called once per scheduler run
       }
     
@@ -29,5 +32,8 @@ public class ArmExtendSubsystem extends SubsystemBase{
       public void stopMotor()
       {
         armExtendMotor.set(0);
+      }
+      public double getEncoderMeters() {
+        return armExtendEncoder.getPosition();
       }
 }

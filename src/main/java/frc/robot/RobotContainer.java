@@ -1,7 +1,6 @@
 package frc.robot;
 
 import java.util.List;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -26,7 +25,6 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.SwerveModule;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.commands.ClawCommand;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.ArmExtendCommand;
@@ -83,7 +81,7 @@ public class RobotContainer {
         buttonY.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(1), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
         buttonA.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(-1), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
 
-        driverButtonA.onTrue(new StartEndCommand(() -> swerveSubsystem.zeroHeading(),() -> swerveSubsystem.doNothing(), swerveSubsystem));
+        driverButtonA.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
     }
 
     public Command getAutonomousCommand() {
@@ -95,16 +93,20 @@ public class RobotContainer {
 
         // 2. Generate trajectory
         Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+                // Initial point
                 new Pose2d(0, 0, new Rotation2d(0)),
                 List.of(
+                        // Other points
                         new Translation2d(1, 0),
                         new Translation2d(1, -1)),
+                //Final points
                 new Pose2d(2, -1, Rotation2d.fromDegrees(180)),
                 trajectoryConfig);
 
         // 3. Define PID controllers for tracking trajectory
         PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
         PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+        // Profile to max interval
         ProfiledPIDController thetaController = new ProfiledPIDController(
                 AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
@@ -122,8 +124,20 @@ public class RobotContainer {
 
         // 5. Add some init and wrap-up, and return everything
         return new SequentialCommandGroup(
+                /**
+                 * Path description: 
+                 * Robot starts in community by gates. 
+                 * Extends arm. 
+                 * Opens claw. 
+                 * Places cube.
+                 * Drives back onto charge station.
+                 */
+                new InstantCommand(() -> armExtendSubsystem.setArmExtendSpeed(0.8)),
+                // Initialize swerve
                 new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+                // Follow swerve trajectory
                 swerveControllerCommand,
+                // Stop swerve
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
     }
 }

@@ -14,11 +14,13 @@ public class ArmExtendCommand extends CommandBase{
         
         addRequirements(armExtendSub);
     }
+
+    // Runs when command starts
     @Override
     public void initialize() {
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
+    // Runs repeatedly when command is called
     @Override
     public void execute() {
         if(Math.abs(extendSpeed) < 0.05)
@@ -28,12 +30,12 @@ public class ArmExtendCommand extends CommandBase{
         armExtendSub.setArmExtendSpeed(extendSpeed);
     }
 
-    // Called once the command ends or is interrupted.
+    // Runs when command ends
     @Override
     public void end(boolean interrupted) {
     }
 
-    // Returns true when the command should end.
+    // Returns when command is finished. Can also be interupted in container.
     @Override
     public boolean isFinished() {
         return false;

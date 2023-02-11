@@ -80,6 +80,18 @@ public final class Constants {
       public static final int armRotateMotorChannel = 10;
       public static final int elevatorMotorChannel = 11;
       public static final int clawMotorChannel = 12;
+
+      // CHANGE TO ACTUAL GEAR RATIOS
+      public static final double kArmRotateGearRatio = 1/69;
+      public static final double kArmExtendGearRatio = 1/420;
+      public static final double kElevatorGearRatio = 1/66;
+      public static final double kClawGearRatio = 1/256;
+
+      // CHANGE VALUES BASED ON GEAR RATIOS
+      public static final double kArmRotateEncoderRot2Meter = 2 * Math.PI * kArmRotateGearRatio;
+      public static final double kArmExtendEncoderRot2Meter = 2 * Math.PI * kArmExtendGearRatio;
+      public static final double kElevatorEncoderRot2Meter = 2 * Math.PI * kElevatorGearRatio;
+      public static final double kClawEncoderRot2Meter = 2 * Math.PI * kClawGearRatio;
     }
 
     public static final class AutoConstants {
