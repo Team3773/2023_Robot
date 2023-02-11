@@ -102,6 +102,7 @@ public final class Constants {
       // CHANGE VALUES BASED ON ENCODER READINGS
       public static final double kElevatorBottomPosition = -1.0;
       public static final double kElevatorTopPosition = 1.0;
+      public static final double kElevatorMiddlePosition = 0.0;
     }
 
     public static final class AutoConstants {

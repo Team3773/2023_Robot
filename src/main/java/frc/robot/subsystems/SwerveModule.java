@@ -59,16 +59,14 @@ public class SwerveModule {
         resetEncoders();
     }
 
-    // public void calibrateWheels()
-    // {
-    //     PIDController pid = new PIDController(0.5, 0, 0);
-    //     turningMotor.set(pid.calculate(absoluteEncoder.getPosition(), 0.0));
-    // }
-    // public void calibrateWheels(CANSparkMax turnMotor, CANCoder absCanCoder)
-    // {
-    //     PIDController pid = new PIDController(0.5, 0.5, 0.5);
-    //     turningMotor.set(pid.calculate(absoluteEncoder.getPosition(), 0.0));
-    // }
+    public void calibrateWheels()
+    {
+        double acceptableError = 0.1;
+        while((Math.abs(getAbsoluteEncoderRad()) > acceptableError))
+        {
+            turningMotor.set(0.25);
+        }
+    }
 
     public void toSmartDashboard()
     {

@@ -30,7 +30,7 @@ public class ElevatorSubsystem extends SubsystemBase{
         double error;
         double outputMultiplier;
         
-        if(elvatorEncoder.getPosition() < 0)
+        if(elvatorEncoder.getPosition() < OperationConstants.kElevatorMiddlePosition)
         {
           error = OperationConstants.kElevatorBottomPosition - elvatorEncoder.getPosition();
           outputMultiplier = error / OperationConstants.kElevatorTopPosition;
