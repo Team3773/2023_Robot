@@ -15,22 +15,32 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.XboxController;
+
+
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.OperationConstants;
 import frc.robot.commands.ClawCommand;
+import frc.robot.commands.ArmExtendCommand;
+import frc.robot.commands.ArmRotateCommand;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.commands.ClawCommand;
+import frc.robot.commands.ElevatorCommand;
+import frc.robot.commands.ClawPIDCommand;
+import frc.robot.commands.ArmRotatePIDCommand;
+import frc.robot.commands.ElevatorPIDCommand;
+import frc.robot.commands.ArmExtendPIDCommand;
+
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.SwerveModule;
 import frc.robot.subsystems.SwerveSubsystem;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ClawCommand;
-import frc.robot.commands.ElevatorCommand;
-import frc.robot.commands.ArmExtendCommand;
-import frc.robot.commands.ArmRotateCommand;
 import frc.robot.subsystems.ArmExtendSubsystem;
 import frc.robot.subsystems.ArmRotateSubsystem;
+
+
 
 public class RobotContainer {
 
@@ -132,10 +142,14 @@ public class RobotContainer {
                  * Places cube.
                  * Drives back onto charge station.
                  */
-                new InstantCommand(() -> armExtendSubsystem.setArmExtendSpeed(0.8)),
+
+                 // Extend Arm
+                new ArmExtendPIDCommand(armExtendSubsystem, OperationConstants.kArmExtendSetpoint),
+                // Open Claw
+                new ClawPIDCommand(clawSubsystem, OperationConstants.kClawSetpoint),
                 // Initialize swerve
                 new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
-                // Follow swerve trajectory
+                // Follow swerve trajectory defined in 2
                 swerveControllerCommand,
                 // Stop swerve
                 new InstantCommand(() -> swerveSubsystem.stopModules()));

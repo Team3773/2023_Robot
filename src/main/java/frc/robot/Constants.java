@@ -92,6 +92,12 @@ public final class Constants {
       public static final double kArmExtendEncoderRot2Meter = 2 * Math.PI * kArmExtendGearRatio;
       public static final double kElevatorEncoderRot2Meter = 2 * Math.PI * kElevatorGearRatio;
       public static final double kClawEncoderRot2Meter = 2 * Math.PI * kClawGearRatio;
+
+      // CHANGE TO ACTUAL SETPOINTS
+      public static final double kArmRotateSetpoint = 0;
+      public static final double kArmExtendSetpoint = 0;
+      public static final double kElevatorSetpoint = 0;
+      public static final double kClawSetpoint = 0;
     }
 
     public static final class AutoConstants {
