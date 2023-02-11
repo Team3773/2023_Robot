@@ -54,7 +54,7 @@ public class SwerveModule {
         
         absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
 
-        // calibrateWheels(turningMotor, absoluteEncoder);
+        calibrateWheels();
 
         resetEncoders();
     }
@@ -62,6 +62,7 @@ public class SwerveModule {
     public void calibrateWheels()
     {
         double acceptableError = 0.1;
+        
         while((Math.abs(getAbsoluteEncoderRad()) > acceptableError))
         {
             turningMotor.set(0.25);
