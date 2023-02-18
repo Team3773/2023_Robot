@@ -103,6 +103,13 @@ public final class Constants {
       public static final double kElevatorBottomPosition = -1.0;
       public static final double kElevatorTopPosition = 1.0;
       public static final double kElevatorMiddlePosition = 0.0;
+
+      // EXTERNAL ENCODER PORTS
+      public static final int karmExtendEncoderA = 0;
+      public static final int karmExtendEncoderB = 1;
+      public static final int karmRotateEncoderA = 2;
+      public static final int karmRotateEncoderB = 3;
+
     }
 
     public static final class AutoConstants {

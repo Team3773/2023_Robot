@@ -56,6 +56,8 @@ public class SwerveModule {
 
         calibrateWheels();
 
+        turningMotor.set(turningPidController.calculate(getTurningPosition(), 0));
+        
         resetEncoders();
     }
 

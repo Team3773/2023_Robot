@@ -1,23 +1,21 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.Constants.OperationConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmRotateSubsystem extends SubsystemBase{
     
     public ArmRotateSubsystem() {
       }
-      CANSparkMax armRotateMotor = new CANSparkMax(OperationConstants.armRotateMotorChannel, MotorType.kBrushless);
-      RelativeEncoder armRotateEncoder = armRotateMotor.getEncoder();
+      WPI_TalonSRX armRotateMotor = new WPI_TalonSRX(OperationConstants.armExtendMotorChannel);
+      Encoder armRotatEncoder = new Encoder(OperationConstants.karmExtendEncoderA, OperationConstants.karmExtendEncoderB);
       DigitalInput limitSwitch = new DigitalInput(1);
     
       @Override
       public void periodic() {
-        armRotateEncoder.setPositionConversionFactor(OperationConstants.kArmRotateEncoderRot2Meter);
         // This method will be called once per scheduler run
       }
     
@@ -47,6 +45,6 @@ public class ArmRotateSubsystem extends SubsystemBase{
       }
 
       public double getEncoderMeters() {
-        return armRotateEncoder.getPosition();
+        return armRotatEncoder.get() * OperationConstants.kArmRotateEncoderRot2Meter;
       }
 }

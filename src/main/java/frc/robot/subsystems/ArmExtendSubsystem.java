@@ -1,9 +1,9 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.OperationConstants;
+
+import edu.wpi.first.wpilibj.Encoder;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -11,12 +11,11 @@ public class ArmExtendSubsystem extends SubsystemBase{
     
     public ArmExtendSubsystem() {
       }
-      CANSparkMax armExtendMotor = new CANSparkMax(OperationConstants.armExtendMotorChannel, MotorType.kBrushless);
-      RelativeEncoder armExtendEncoder = armExtendMotor.getEncoder();
+      WPI_TalonSRX armExtendMotor = new WPI_TalonSRX(OperationConstants.armExtendMotorChannel);
+      Encoder encoder = new Encoder(OperationConstants.karmExtendEncoderA, OperationConstants.karmExtendEncoderB);
     
       @Override
       public void periodic() {
-        armExtendEncoder.setPositionConversionFactor(OperationConstants.kArmExtendEncoderRot2Meter);
         // This method will be called once per scheduler run
       }
     
@@ -34,6 +33,6 @@ public class ArmExtendSubsystem extends SubsystemBase{
         armExtendMotor.set(0);
       }
       public double getEncoderMeters() {
-        return armExtendEncoder.getPosition();
+        return encoder.get() * OperationConstants.kArmExtendEncoderRot2Meter;
       }
 }
