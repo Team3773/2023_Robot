@@ -30,15 +30,15 @@ public final class Constants {
             new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
             new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
-        public static final int kFrontLeftDriveMotorPort = 1;
-        public static final int kFrontRightDriveMotorPort = 6;
+        public static final int kFrontLeftDriveMotorPort = 2;
+        public static final int kFrontRightDriveMotorPort = 3;
         public static final int kBackRightDriveMotorPort = 4;
         public static final int kBackLeftDriveMotorPort = 8;
 
-        public static final int kFrontLeftTurningMotorPort = 2;
+        public static final int kFrontLeftTurningMotorPort = 1;
         public static final int kFrontRightTurningMotorPort = 5;
         public static final int kBackRightTurningMotorPort = 7;
-        public static final int kBackLeftTurningMotorPort = 3;
+        public static final int kBackLeftTurningMotorPort = 6;
 
         public static final boolean kFrontLeftTurningEncoderReversed = false;
         public static final boolean kBackLeftTurningEncoderReversed = false;
@@ -51,9 +51,9 @@ public final class Constants {
         public static final boolean kBackRightDriveEncoderReversed = false;
 
         public static final int kFrontLeftDriveAbsoluteEncoderPort = 9;
-        public static final int kFrontRightDriveAbsoluteEncoderPort = 12;
-        public static final int kBackRightDriveAbsoluteEncoderPort = 11;
-        public static final int kBackLeftDriveAbsoluteEncoderPort = 10;
+        public static final int kFrontRightDriveAbsoluteEncoderPort = 10; // CHANGED
+        public static final int kBackRightDriveAbsoluteEncoderPort = 12;
+        public static final int kBackLeftDriveAbsoluteEncoderPort = 11;
 
         public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
         public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
@@ -76,16 +76,16 @@ public final class Constants {
     }
 
     public final static class OperationConstants {
-      public static final int armExtendMotorChannel = 9;
-      public static final int armRotateMotorChannel = 10;
+      public static final int armExtendMotorChannel = 10;
+      public static final int armRotateMotorChannel = 9;
       public static final int elevatorMotorChannel = 11;
       public static final int clawMotorChannel = 12;
 
       // CHANGE TO ACTUAL GEAR RATIOS
-      public static final double kArmRotateGearRatio = 1/69;
-      public static final double kArmExtendGearRatio = 1/420;
-      public static final double kElevatorGearRatio = 1/66;
-      public static final double kClawGearRatio = 1/256;
+      public static final double kArmRotateGearRatio = 1/977;
+      public static final double kArmExtendGearRatio = 1/380; // EDUCATED GUESS
+      public static final double kElevatorGearRatio = 1/36;
+      public static final double kClawGearRatio = 1/196;
 
       // CHANGE VALUES BASED ON GEAR RATIOS
       public static final double kArmRotateEncoderRot2Meter = 2 * Math.PI * kArmRotateGearRatio;
