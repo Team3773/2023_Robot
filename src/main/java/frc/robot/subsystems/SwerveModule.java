@@ -54,22 +54,22 @@ public class SwerveModule {
         
         absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
 
-        calibrateWheels();
+        // calibrateWheels();
 
         turningMotor.set(turningPidController.calculate(getTurningPosition(), 0));
         
         resetEncoders();
     }
 
-    public void calibrateWheels()
-    {
-        double acceptableError = 0.1;
+    // public void calibrateWheels()
+    // {
+    //     double acceptableError = 0.1;
         
-        while((Math.abs(getAbsoluteEncoderRad()) > acceptableError))
-        {
-            turningMotor.set(0.25);
-        }
-    }
+    //     while((Math.abs(getAbsoluteEncoderRad()) > acceptableError))
+    //     {
+    //         turningMotor.set(0.25);
+    //     }
+    // }
 
     public void toSmartDashboard()
     {

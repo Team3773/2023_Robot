@@ -14,7 +14,7 @@ public class ArmRotateSubsystem extends SubsystemBase{
       }
       VictorSPX armRotateMotor = new VictorSPX(OperationConstants.armRotateMotorChannel);
       Encoder armRotatEncoder = new Encoder(OperationConstants.karmRotateEncoderA, OperationConstants.karmRotateEncoderB);
-      DigitalInput limitSwitch = new DigitalInput(1);
+      DigitalInput limitSwitch = new DigitalInput(OperationConstants.limitSwitchPort);
     
       @Override
       public void periodic() {

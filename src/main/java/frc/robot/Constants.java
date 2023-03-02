@@ -81,13 +81,11 @@ public final class Constants {
       public static final int elevatorMotorChannel = 11;
       public static final int clawMotorChannel = 12;
 
-      // CHANGE TO ACTUAL GEAR RATIOS
       public static final double kArmRotateGearRatio = 1/977;
       public static final double kArmExtendGearRatio = 1/380; // EDUCATED GUESS
       public static final double kElevatorGearRatio = 1/36;
       public static final double kClawGearRatio = 1/196;
 
-      // CHANGE VALUES BASED ON GEAR RATIOS
       public static final double kArmRotateEncoderRot2Meter = 2 * Math.PI * kArmRotateGearRatio;
       public static final double kArmExtendEncoderRot2Meter = 2 * Math.PI * kArmExtendGearRatio;
       public static final double kElevatorEncoderRot2Meter = 2 * Math.PI * kElevatorGearRatio;
@@ -109,6 +107,8 @@ public final class Constants {
       public static final int karmExtendEncoderB = 1;
       public static final int karmRotateEncoderA = 2;
       public static final int karmRotateEncoderB = 3;
+
+      public static final int limitSwitchPort = 4;
 
     }
 
