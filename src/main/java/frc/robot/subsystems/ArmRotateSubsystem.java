@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.Constants.OperationConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -10,8 +12,8 @@ public class ArmRotateSubsystem extends SubsystemBase{
     
     public ArmRotateSubsystem() {
       }
-      WPI_TalonSRX armRotateMotor = new WPI_TalonSRX(OperationConstants.armExtendMotorChannel);
-      Encoder armRotatEncoder = new Encoder(OperationConstants.karmExtendEncoderA, OperationConstants.karmExtendEncoderB);
+      VictorSPX armRotateMotor = new VictorSPX(OperationConstants.armRotateMotorChannel);
+      Encoder armRotatEncoder = new Encoder(OperationConstants.karmRotateEncoderA, OperationConstants.karmRotateEncoderB);
       DigitalInput limitSwitch = new DigitalInput(1);
     
       @Override
@@ -27,21 +29,21 @@ public class ArmRotateSubsystem extends SubsystemBase{
       {
         if(!limitSwitch.get())
         {
-          armRotateMotor.set(speed);
+          armRotateMotor.set(ControlMode.PercentOutput, speed);
         }
         else if(speed > 0)
         {
-          armRotateMotor.set(speed);
+          armRotateMotor.set(ControlMode.PercentOutput, speed);
         }
         else
         {
-          armRotateMotor.stopMotor();
+          stopMotor();
         }
       }
 
       public void stopMotor()
       {
-        armRotateMotor.set(0);
+        armRotateMotor.set(ControlMode.PercentOutput, 0);
       }
 
       public double getEncoderMeters() {

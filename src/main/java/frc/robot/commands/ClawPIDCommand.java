@@ -25,6 +25,7 @@ public class ClawPIDCommand extends CommandBase{
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        // MAY NEED DOULBE ARG METHOD HERE? NOT SURE IF .setSetpoint is right
         double speed = pidController.calculate(clawSubsystem.getEncoderMeters());
         clawSubsystem.setClawSpeed(speed);
 

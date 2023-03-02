@@ -3,7 +3,10 @@ package frc.robot.subsystems;
 import frc.robot.Constants.OperationConstants;
 
 import edu.wpi.first.wpilibj.Encoder;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.motorcontrol.Victor;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -11,7 +14,7 @@ public class ArmExtendSubsystem extends SubsystemBase{
     
     public ArmExtendSubsystem() {
       }
-      WPI_TalonSRX armExtendMotor = new WPI_TalonSRX(OperationConstants.armExtendMotorChannel);
+      VictorSPX armExtendMotor = new VictorSPX(OperationConstants.armExtendMotorChannel);
       Encoder encoder = new Encoder(OperationConstants.karmExtendEncoderA, OperationConstants.karmExtendEncoderB);
     
       @Override
@@ -25,12 +28,12 @@ public class ArmExtendSubsystem extends SubsystemBase{
       }
       public void setArmExtendSpeed(double speed)
       {
-        armExtendMotor.set(speed);
+        armExtendMotor.set(ControlMode.PercentOutput, speed);
       }
 
       public void stopMotor()
       {
-        armExtendMotor.set(0);
+        armExtendMotor.set(ControlMode.PercentOutput, 0);
       }
       public double getEncoderMeters() {
         return encoder.get() * OperationConstants.kArmExtendEncoderRot2Meter;
