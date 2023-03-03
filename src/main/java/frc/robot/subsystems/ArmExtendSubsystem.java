@@ -16,7 +16,7 @@ public class ArmExtendSubsystem extends SubsystemBase{
     
       @Override
       public void periodic() {
-        SmartDashboard.putNumber("Arm Extend Encoder: ", getEncoderMeters());
+        SmartDashboard.putNumber("Arm Extend Encoder: ", encoder.getDistance());
         // This method will be called once per scheduler run
       }
     

@@ -11,7 +11,7 @@ public class ArmExtendPIDCommand extends CommandBase{
     public ArmExtendPIDCommand(ArmExtendSubsystem subsystem, double setpoint)
     {
         armExtendSubsystem = subsystem;
-        this.pidController = new PIDController(0.1, 0, 0); 
+        this.pidController = new PIDController(0.15, 0, 0); 
         pidController.setSetpoint(setpoint);
         
         addRequirements(armExtendSubsystem);

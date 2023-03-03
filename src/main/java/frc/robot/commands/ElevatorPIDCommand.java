@@ -11,7 +11,7 @@ public class ElevatorPIDCommand extends CommandBase{
     public ElevatorPIDCommand(ElevatorSubsystem subsystem, double setpoint)
     {
         elevatorSub = subsystem;
-        this.pidController = new PIDController(0, 0, 0); 
+        this.pidController = new PIDController(0.15, 0, 0); 
         pidController.setSetpoint(setpoint);
         
         addRequirements(elevatorSub);

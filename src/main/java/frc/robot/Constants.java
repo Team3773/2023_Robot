@@ -86,7 +86,7 @@ public final class Constants {
       public static final double kElevatorGearRatio = 1/36;
       public static final double kClawGearRatio = 1/196;
 
-      public static final double kArmRotateEncoderRot2Meter = 2 * Math.PI * kArmRotateGearRatio;
+      public static final double kArmRotateEncoderRot2Meter = 1.0 / 4096.0 * 2 * Math.PI * kArmRotateGearRatio;
       public static final double kArmExtendEncoderRot2Meter = 2 * Math.PI * kArmExtendGearRatio;
       public static final double kElevatorEncoderRot2Meter = 2 * Math.PI * kElevatorGearRatio;
       public static final double kClawEncoderRot2Meter = 2 * Math.PI * kClawGearRatio;

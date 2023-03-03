@@ -11,7 +11,7 @@ public class ArmRotatePIDCommand extends CommandBase{
     public ArmRotatePIDCommand(ArmRotateSubsystem subsystem, double setpoint)
     {
         armRotateSub = subsystem;
-        this.pidController = new PIDController(0, 0, 0); 
+        this.pidController = new PIDController(0.15, 0, 0); 
         pidController.setSetpoint(setpoint);
         
         addRequirements(armRotateSub);

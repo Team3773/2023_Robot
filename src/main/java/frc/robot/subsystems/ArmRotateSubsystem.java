@@ -13,12 +13,13 @@ public class ArmRotateSubsystem extends SubsystemBase{
     public ArmRotateSubsystem() {
       }
       VictorSPX armRotateMotor = new VictorSPX(OperationConstants.armRotateMotorChannel);
-      Encoder armRotatEncoder = new Encoder(OperationConstants.karmRotateEncoderA, OperationConstants.karmRotateEncoderB);
+      Encoder armRotateEncoder = new Encoder(OperationConstants.karmRotateEncoderA, OperationConstants.karmRotateEncoderB);
       DigitalInput limitSwitch = new DigitalInput(OperationConstants.limitSwitchPort);
     
       @Override
       public void periodic() {
-        SmartDashboard.putNumber("Arm Rotate Encoder", getEncoderMeters());
+        // SmartDashboard.putNumber("Arm Rotate Encoder", getEncoderMeters());
+        SmartDashboard.putNumber("Arm Rotate Encoder", armRotateEncoder.getDistance());
         // This method will be called once per scheduler run
       }
     
@@ -49,6 +50,7 @@ public class ArmRotateSubsystem extends SubsystemBase{
       }
 
       public double getEncoderMeters() {
-        return armRotatEncoder.get() * OperationConstants.kArmRotateEncoderRot2Meter;
+        return armRotateEncoder.getDistance();
+        // return armRotateEncoder.get() * OperationConstants.kArmRotateEncoderRot2Meter;
       }
 }

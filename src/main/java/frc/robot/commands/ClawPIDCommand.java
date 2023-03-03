@@ -11,7 +11,7 @@ public class ClawPIDCommand extends CommandBase{
     public ClawPIDCommand(ClawSubsystem subsystem, double setpoint)
     {
         clawSubsystem = subsystem;
-        this.pidController = new PIDController(0, 0, 0); 
+        this.pidController = new PIDController(0.15, 0, 0); 
         pidController.setSetpoint(setpoint);
         
         addRequirements(clawSubsystem);
