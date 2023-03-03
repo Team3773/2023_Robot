@@ -98,9 +98,9 @@ public final class Constants {
       public static final double kClawSetpoint = 0;
 
       // CHANGE VALUES BASED ON ENCODER READINGS
-      public static final double kElevatorBottomPosition = -1.0;
-      public static final double kElevatorTopPosition = 1.0;
-      public static final double kElevatorMiddlePosition = 0.0;
+      public static final double kElevatorBottomPosition = -129.45;
+      public static final double kElevatorTopPosition = 5.76;
+      public static final double kElevatorMiddlePosition = (kElevatorBottomPosition + kElevatorTopPosition) / 2;
 
       // EXTERNAL ENCODER PORTS
       public static final int karmExtendEncoderA = 0;
