@@ -1,18 +1,23 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ClawSubsystem;
+
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClawCommand extends CommandBase{
     private final ClawSubsystem clawSub;
     private double closeSpeed;
     private double openSpeed;
+    private Supplier<Double> openSpeedFunction;
+    private Supplier<Double> closeSpeedFunction;
 
-    public ClawCommand(ClawSubsystem subsystem, double closeSpeed, double openSpeed)
+    public ClawCommand(ClawSubsystem subsystem, Supplier<Double> closeSpeedFunction, Supplier<Double> openSpeedFunction)
     {
         clawSub = subsystem; 
-        this.closeSpeed = closeSpeed;
-        this.openSpeed = openSpeed;
+        this.closeSpeedFunction = closeSpeedFunction;
+        this.openSpeedFunction = openSpeedFunction;
         
         addRequirements(clawSub);
     }
@@ -23,7 +28,7 @@ public class ClawCommand extends CommandBase{
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double clawSpeed;
+        double clawSpeed = openSpeedFunction.get();
 
         if(Math.abs(closeSpeed) < 0.05)
         {

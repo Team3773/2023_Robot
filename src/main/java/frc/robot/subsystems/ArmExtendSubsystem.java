@@ -1,10 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.OperationConstants;
-
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.motorcontrol.Victor;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 

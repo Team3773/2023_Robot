@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.Constants.OperationConstants;
@@ -27,18 +26,19 @@ public class ArmRotateSubsystem extends SubsystemBase{
       }
       public void setArmRotateSpeed(double speed)
       {
-        if(!limitSwitch.get())
-        {
-          armRotateMotor.set(ControlMode.PercentOutput, speed);
-        }
-        else if(speed > 0)
-        {
-          armRotateMotor.set(ControlMode.PercentOutput, speed);
-        }
-        else
-        {
-          stopMotor();
-        }
+        // if(!limitSwitch.get())
+        // {
+        //   armRotateMotor.set(ControlMode.PercentOutput, speed);
+        // }
+        // else if(speed > 0)
+        // {
+        //   armRotateMotor.set(ControlMode.PercentOutput, speed);
+        // }
+        // else
+        // {
+        //   stopMotor();
+        // }
+        armRotateMotor.set(ControlMode.PercentOutput, speed);
       }
 
       public void stopMotor()
