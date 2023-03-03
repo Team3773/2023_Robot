@@ -1,16 +1,19 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ArmExtendSubsystem;
+
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ArmExtendCommand extends CommandBase{
     private final ArmExtendSubsystem armExtendSub;
-    private double extendSpeed;
+    private final Supplier<Double> extendSpeedFunction;
 
-    public ArmExtendCommand(ArmExtendSubsystem subsystem, double extendSpeed)
+    public ArmExtendCommand(ArmExtendSubsystem subsystem, Supplier<Double> extendSpeedFunction)
     {
         armExtendSub = subsystem;
-        this.extendSpeed = extendSpeed; 
+        this.extendSpeedFunction = extendSpeedFunction; 
         
         addRequirements(armExtendSub);
     }
@@ -23,10 +26,12 @@ public class ArmExtendCommand extends CommandBase{
     // Runs repeatedly when command is called
     @Override
     public void execute() {
+        double extendSpeed = extendSpeedFunction.get();
         if(Math.abs(extendSpeed) < 0.05)
         {
             extendSpeed = 0;
         }
+
         armExtendSub.setArmExtendSpeed(extendSpeed);
     }
 

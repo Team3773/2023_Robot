@@ -1,15 +1,19 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ArmRotateSubsystem;
+
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ArmRotateCommand extends CommandBase{
     private final ArmRotateSubsystem armRotateSub;
-    private double rotateSpeed;
+    private final Supplier<Double> rotateSpeedFunction;
 
-    public ArmRotateCommand(ArmRotateSubsystem subsystem, double rotateSpeed)
+    public ArmRotateCommand(ArmRotateSubsystem subsystem, Supplier<Double> rotateSpeedFunction)
     {
-        armRotateSub = subsystem; 
+        armRotateSub = subsystem;
+        this.rotateSpeedFunction = rotateSpeedFunction; 
         
         addRequirements(armRotateSub);
     }
@@ -20,10 +24,13 @@ public class ArmRotateCommand extends CommandBase{
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        double rotateSpeed = rotateSpeedFunction.get();
+
         if(Math.abs(rotateSpeed) < 0.05)
         {
             rotateSpeed = 0;
         }
+
         armRotateSub.setArmRotateSpeed(rotateSpeed);
     }
 
