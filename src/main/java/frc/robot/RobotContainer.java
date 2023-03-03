@@ -61,7 +61,11 @@ public class RobotContainer {
 
     private JoystickButton buttonY;
     private JoystickButton buttonA;
+    private JoystickButton buttonX;
+    private JoystickButton buttonB;
     private JoystickButton driverButtonA;
+    private JoystickButton buttonRightTrigger;
+    private JoystickButton buttonLeftTrigger;
 
     private final XboxController driverJoytick = new XboxController(OIConstants.kDriverControllerPort);
     private final XboxController operatorJoystick = new XboxController(OIConstants.kOperatorControllerPort);
@@ -92,11 +96,22 @@ public class RobotContainer {
         buttonY = new JoystickButton(operatorJoystick, 4);
         buttonA = new JoystickButton(operatorJoystick, 1);
 
+        buttonB = new JoystickButton(operatorJoystick, 2);
+        buttonX = new JoystickButton(operatorJoystick, 3);
+        buttonRightTrigger = new JoystickButton(operatorJoystick, 5);
+        buttonLeftTrigger = new JoystickButton(operatorJoystick, 6);
+
         driverButtonA = new JoystickButton(driverJoytick, 1);
 
         // buttonY.whileTrue(new ElevatorPIDCommand(elevatorSubsystem, 0));
         buttonY.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(.15), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
         buttonA.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(-.15), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
+
+        buttonB.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -20));
+        buttonX.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -100));
+
+        // buttonRightTrigger.onTrue(new ArmExtendPIDCommand(armExtendSubsystem, 118));
+        // buttonLeftTrigger.onTrue(new ArmRotatePIDCommand(armRotateSubsystem, 55));
 
         // USB 0. CLEAR XBOX
         driverButtonA.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
