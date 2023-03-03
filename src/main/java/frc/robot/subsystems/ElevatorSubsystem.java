@@ -3,8 +3,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-
 import frc.robot.Constants.OperationConstants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ElevatorSubsystem extends SubsystemBase{
@@ -17,6 +17,7 @@ public class ElevatorSubsystem extends SubsystemBase{
       @Override
       public void periodic() {
         elvatorEncoder.setPositionConversionFactor(OperationConstants.kElevatorEncoderRot2Meter);
+        SmartDashboard.putNumber("Elevator Encoder: ", getEncoderMeters());
         // This method will be called once per scheduler run
       }
     

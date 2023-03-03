@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.Constants.OperationConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmRotateSubsystem extends SubsystemBase{
@@ -17,6 +18,7 @@ public class ArmRotateSubsystem extends SubsystemBase{
     
       @Override
       public void periodic() {
+        SmartDashboard.putNumber("Arm Rotate Encoder", getEncoderMeters());
         // This method will be called once per scheduler run
       }
     

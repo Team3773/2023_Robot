@@ -74,7 +74,10 @@ public class RobotContainer {
                 () -> driverJoytick.getRightX(), // right x
                 () -> !driverJoytick.getLeftBumper()));
 
-        // Open claw with right trigger axis. Close claw with left trigger axis. USB 1. BLACK XBOX
+        // USB 1. BLACK XBOX
+        
+        // Open claw with right trigger axis. 
+        // Close claw with left trigger axis. 
         clawSubsystem.setDefaultCommand(new ClawCommand(clawSubsystem, () -> operatorJoystick.getRightTriggerAxis(), () -> operatorJoystick.getLeftTriggerAxis()));
         // Extend or retract arm with right y-axis.
         armExtendSubsystem.setDefaultCommand(new ArmExtendCommand(armExtendSubsystem, () -> operatorJoystick.getRightY()));
@@ -92,8 +95,8 @@ public class RobotContainer {
         driverButtonA = new JoystickButton(driverJoytick, 1);
 
         // buttonY.whileTrue(new ElevatorPIDCommand(elevatorSubsystem, 0));
-        buttonY.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(1), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
-        buttonA.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(-1), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
+        buttonY.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(.15), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
+        buttonA.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(-.15), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
 
         // USB 0. CLEAR XBOX
         driverButtonA.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));

@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -16,6 +17,7 @@ public class ClawSubsystem extends SubsystemBase{
       @Override
       public void periodic() {
         clawEncoder.setPositionConversionFactor(OperationConstants.kClawEncoderRot2Meter);
+        SmartDashboard.putNumber("Claw Encoder: ", getEncoderMeters());
         // This method will be called once per scheduler run
       }
     

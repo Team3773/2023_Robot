@@ -2,9 +2,9 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants.OperationConstants;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmExtendSubsystem extends SubsystemBase{
@@ -16,6 +16,7 @@ public class ArmExtendSubsystem extends SubsystemBase{
     
       @Override
       public void periodic() {
+        SmartDashboard.putNumber("Arm Extend Encoder: ", getEncoderMeters());
         // This method will be called once per scheduler run
       }
     
@@ -32,6 +33,7 @@ public class ArmExtendSubsystem extends SubsystemBase{
       {
         armExtendMotor.set(ControlMode.PercentOutput, 0);
       }
+
       public double getEncoderMeters() {
         return encoder.get() * OperationConstants.kArmExtendEncoderRot2Meter;
       }

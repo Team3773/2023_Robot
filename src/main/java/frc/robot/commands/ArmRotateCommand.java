@@ -1,9 +1,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ArmRotateSubsystem;
-
 import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ArmRotateCommand extends CommandBase{
