@@ -70,6 +70,7 @@ public class RobotContainer {
     private JoystickButton buttonLeftTrigger;
 
     private JoystickButton driverButtonB;
+    private JoystickButton driverButtonY;
 
     private final XboxController driverJoytick = new XboxController(OIConstants.kDriverControllerPort);
     private final XboxController operatorJoystick = new XboxController(OIConstants.kOperatorControllerPort);
@@ -107,6 +108,7 @@ public class RobotContainer {
 
         driverButtonA = new JoystickButton(driverJoytick, 1);
         driverButtonB = new JoystickButton(driverJoytick, 2);
+        driverButtonY = new JoystickButton(driverJoytick, 4);
 
         // buttonY.whileTrue(new ElevatorPIDCommand(elevatorSubsystem, 0));
         buttonY.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(.15), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
@@ -129,6 +131,8 @@ public class RobotContainer {
 
         // Balance in teleop
         driverButtonB.onTrue(new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees));
+
+        driverButtonY.onTrue(new InstantCommand(() -> swerveSubsystem.resetStates()));
     }
 
     public Command getAutonomousCommand() {
