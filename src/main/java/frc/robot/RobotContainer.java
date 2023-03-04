@@ -30,8 +30,10 @@ import frc.robot.commands.ClawCommand;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.ClawPIDCommand;
 import frc.robot.commands.ArmRotatePIDCommand;
+import frc.robot.commands.BalanceOnBeamCommand;
 import frc.robot.commands.ElevatorPIDCommand;
 import frc.robot.commands.ArmExtendPIDCommand;
+import frc.robot.commands.BalanceOnBeamCommand;
 
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -180,6 +182,8 @@ public class RobotContainer {
                 new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
                 // Follow swerve trajectory defined in 2
                 swerveControllerCommand,
+                // Balance on Beam
+                new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees),
                 // Stop swerve
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
     }
