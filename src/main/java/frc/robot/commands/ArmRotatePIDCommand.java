@@ -19,7 +19,7 @@ public class ArmRotatePIDCommand extends CommandBase{
     @Override
     public void initialize() {
         pidController.reset();
-
+        armRotateSub.setCurrentLimit();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -27,7 +27,6 @@ public class ArmRotatePIDCommand extends CommandBase{
     public void execute() {
         double speed = pidController.calculate(armRotateSub.getEncoderMeters());
         armRotateSub.setArmRotateSpeed(speed);
-
     }
 
     // Called once the command ends or is interrupted.

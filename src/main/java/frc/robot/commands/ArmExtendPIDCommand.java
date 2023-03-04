@@ -19,7 +19,7 @@ public class ArmExtendPIDCommand extends CommandBase{
     @Override
     public void initialize() {
         pidController.reset();
-
+        armExtendSubsystem.setCurrentLimit();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
