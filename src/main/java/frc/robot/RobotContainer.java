@@ -107,8 +107,14 @@ public class RobotContainer {
         buttonY.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(.15), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
         buttonA.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(-.15), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
 
+        // PLACE TOP
         buttonB.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -20));
-        buttonX.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -100));
+
+        // PLACE BOTTOM
+        buttonX.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -35));
+        
+        // PICK UP FROM FLOOR
+        buttonRightTrigger.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -100));
 
         // buttonRightTrigger.onTrue(new ArmExtendPIDCommand(armExtendSubsystem, 118));
         // buttonLeftTrigger.onTrue(new ArmRotatePIDCommand(armRotateSubsystem, 55));

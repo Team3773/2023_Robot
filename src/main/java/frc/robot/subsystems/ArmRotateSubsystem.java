@@ -43,7 +43,7 @@ public class ArmRotateSubsystem extends SubsystemBase{
         // {
         //   stopMotor();
         // }
-        armRotateMotor.set(ControlMode.PercentOutput, speed);
+        armRotateMotor.set(ControlMode.PercentOutput, speed * OperationConstants.kArmRotateDampner);
       }
 
       public void setCurrentLimit()
