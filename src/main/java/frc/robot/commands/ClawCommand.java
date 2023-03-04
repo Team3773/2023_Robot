@@ -28,13 +28,15 @@ public class ClawCommand extends CommandBase{
         double openSpeed = openSpeedFunction.get();
         double closeSpeed = closeSpeedFunction.get();
 
-        if(Math.abs(closeSpeed) < 0.05)
+        // If close speed is almost zero and open speed is abs greater than zero, open
+        // Deadband of 0.05
+        if(Math.abs(closeSpeed) < 0.05 && Math.abs(openSpeed) > 0.05)
         {
-            clawSpeed = -openSpeed;
+            clawSpeed = openSpeed;
         }
-        else if(Math.abs(openSpeed) < 0.05)
+        else if(Math.abs(closeSpeed) > 0.05 && Math.abs(openSpeed) < 0.05)
         {
-            clawSpeed = closeSpeed; 
+            clawSpeed = closeSpeed;
         }
         else
         {
