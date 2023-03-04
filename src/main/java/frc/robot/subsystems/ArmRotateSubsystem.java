@@ -13,6 +13,7 @@ public class ArmRotateSubsystem extends SubsystemBase{
     
     public ArmRotateSubsystem() 
     {
+      // RESET IN START POSITION
       armRotateEncoder.reset();
       armRotateMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
     }

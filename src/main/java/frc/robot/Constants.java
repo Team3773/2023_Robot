@@ -101,6 +101,9 @@ public final class Constants {
       public static final double kArmRotateDampner = .5;
       public static final double kArmExtendDampner = .5;
 
+      // CHARGE STATION
+      public static final double kBeam_Balance_Goal_Degrees = 0.0;
+
       // CHANGE VALUES BASED ON ENCODER READINGS
       public static final double kElevatorBottomPosition = -129.45;
       public static final double kElevatorTopPosition = 5.76;

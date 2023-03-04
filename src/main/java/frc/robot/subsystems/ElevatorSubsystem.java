@@ -13,6 +13,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     public ElevatorSubsystem() 
     {
+      // RESET IN START POSITION
       elvatorEncoder.setPosition(0);
     }
     

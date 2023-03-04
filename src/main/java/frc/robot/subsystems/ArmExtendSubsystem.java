@@ -12,6 +12,7 @@ public class ArmExtendSubsystem extends SubsystemBase{
     
     public ArmExtendSubsystem() 
     {
+      // RESET IN START POSITION
       armExtendEncoder.reset();
       armExtendMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
 

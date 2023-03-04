@@ -11,6 +11,7 @@ public class ClawSubsystem extends SubsystemBase{
     
     public ClawSubsystem() 
     {
+      // RESET IN START POSITION
       clawEncoder.setPosition(0);
     }
       CANSparkMax clawMotor = new CANSparkMax(OperationConstants.clawMotorChannel, MotorType.kBrushless);
