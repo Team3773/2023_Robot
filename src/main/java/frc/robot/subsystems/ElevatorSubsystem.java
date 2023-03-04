@@ -45,7 +45,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
         elevatorMotor.set(speed);
       }
-      
+
       public void stopMotor()
       {
         elevatorMotor.set(0);

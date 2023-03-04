@@ -76,8 +76,8 @@ public final class Constants {
     }
 
     public final static class OperationConstants {
-      public static final int armExtendMotorChannel = 10;
-      public static final int armRotateMotorChannel = 9;
+      public static final int armExtendMotorChannel = 9;
+      public static final int armRotateMotorChannel = 10;
       public static final int elevatorMotorChannel = 11;
       public static final int clawMotorChannel = 12;
 
@@ -97,6 +97,10 @@ public final class Constants {
       public static final double kElevatorSetpoint = 0;
       public static final double kClawSetpoint = 0;
 
+      // DAMPNERS
+      public static final double kArmRotateDampner = .5;
+      public static final double kArmExtendDampner = .5;
+
       // CHANGE VALUES BASED ON ENCODER READINGS
       public static final double kElevatorBottomPosition = -129.45;
       public static final double kElevatorTopPosition = 5.76;
@@ -109,7 +113,6 @@ public final class Constants {
       public static final int karmRotateEncoderB = 3;
 
       public static final int limitSwitchPort = 4;
-
     }
 
     public static final class AutoConstants {
