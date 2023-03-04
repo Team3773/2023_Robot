@@ -16,6 +16,7 @@ public class BalanceOnBeamCommand extends CommandBase {
   private final SwerveSubsystem swerveSub;
   private double setPoint;
   private final PIDController pidController;
+  private int balanceCounter = 0;
 
   /** Creates a new BalanceOnBeamCommand. */
   public BalanceOnBeamCommand(SwerveSubsystem swerveSub, double setPoint) {
@@ -36,37 +37,27 @@ public class BalanceOnBeamCommand extends CommandBase {
   public void execute() {
     double speed = pidController.calculate(swerveSub.getPitch());
 
-    ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 1, 0);
+    ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, speed, 0);
     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     swerveSub.setModuleStates(moduleStates);
-    // double error = OperationConstants.kBeam_Balance_Goal_Degrees - currentAngle;
-    // double drivePower = -Math.min(Constants.BEAM_BALANACED_DRIVE_KP * error, 1);
-
-    // // Our robot needed an extra push to drive up in reverse, probably due to weight imbalances
-    // if (drivePower < 0) {
-    //   drivePower *= Constants.BACKWARDS_BALANCING_EXTRA_POWER_MULTIPLIER;
-    // }
-
-    // // Limit the max power
-    // if (Math.abs(drivePower) > 0.4) {
-    //   drivePower = Math.copySign(0.4, drivePower);
-    // }
-
-    // m_DriveSubsystem.drive(drivePower, drivePower);
-    
-    // // Debugging Print Statments
-    // System.out.println("Current Angle: " + currentAngle);
-    // System.out.println("Error " + error);
-    // System.out.println("Drive Power: " + drivePower);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(Math.abs(swerveSub.getPitch()) < 3){
+      balanceCounter += 1;
+    }else{
+      balanceCounter = 0;
+    }
+    if(balanceCounter >= 20){
+      return true;
+    }
     return false;
   }
 }

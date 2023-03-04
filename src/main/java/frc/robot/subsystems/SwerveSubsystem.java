@@ -73,6 +73,15 @@ public class SwerveSubsystem extends SubsystemBase {
         }).start();
     }
 
+    public void resetStates() 
+    {        
+        // SwerveDriveKinematics.
+        frontLeft.resetModuleStates();
+        frontRight.resetModuleStates();
+        backLeft.resetModuleStates();
+        backRight.resetModuleStates();
+    }
+
     public void zeroHeading() {
         gyro.reset();
     }
