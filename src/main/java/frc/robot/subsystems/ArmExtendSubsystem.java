@@ -6,6 +6,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmExtendSubsystem extends SubsystemBase{
@@ -13,16 +17,18 @@ public class ArmExtendSubsystem extends SubsystemBase{
     public ArmExtendSubsystem() 
     {
       // RESET IN START POSITION
-      armExtendEncoder.reset();
-      armExtendMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
+      armExtendEncoder.setPosition(0);
+      // armExtendMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
 
     }
-      TalonSRX armExtendMotor = new TalonSRX(OperationConstants.armExtendMotorChannel);
-      Encoder armExtendEncoder = new Encoder(OperationConstants.karmExtendEncoderA, OperationConstants.karmExtendEncoderB);
-    
+      // TalonSRX armExtendMotor = new TalonSRX(OperationConstants.armExtendMotorChannel);
+      CANSparkMax armExtendMotor = new CANSparkMax(OperationConstants.armExtendMotorChannel, MotorType.kBrushless);
+      RelativeEncoder armExtendEncoder = armExtendMotor.getEncoder();
+
       @Override
       public void periodic() {
-        SmartDashboard.putNumber("Arm Extend Encoder: ", armExtendEncoder.getDistance());
+        armExtendEncoder.setPositionConversionFactor(OperationConstants.kElevatorEncoderRot2Meter);
+        SmartDashboard.putNumber("Arm Extend Encoder: ", getEncoderMeters());
         // This method will be called once per scheduler run
       }
     
@@ -32,15 +38,15 @@ public class ArmExtendSubsystem extends SubsystemBase{
       }
       public void setArmExtendSpeed(double speed)
       {
-        armExtendMotor.set(ControlMode.PercentOutput, speed * OperationConstants.kArmExtendDampner);
+        armExtendMotor.set(speed * OperationConstants.kArmExtendDampner);
       }
 
       public void stopMotor()
       {
-        armExtendMotor.set(ControlMode.PercentOutput, 0);
+        armExtendMotor.set(0);
       }
 
       public double getEncoderMeters() {
-        return armExtendEncoder.get() * OperationConstants.kArmExtendEncoderRot2Meter;
+        return armExtendEncoder.getPosition();
       }
 }
