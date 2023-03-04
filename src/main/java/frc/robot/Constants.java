@@ -82,7 +82,7 @@ public final class Constants {
       public static final int clawMotorChannel = 12;
 
       public static final double kArmRotateGearRatio = 1/977;
-      public static final double kArmExtendGearRatio = 1/380; // EDUCATED GUESS
+      public static final double kArmExtendGearRatio = 1/343; // EDUCATED GUESS
       public static final double kElevatorGearRatio = 1/36;
       public static final double kClawGearRatio = 1/196;
 

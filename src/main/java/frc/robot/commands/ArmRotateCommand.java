@@ -41,14 +41,6 @@ public class ArmRotateCommand extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if(Math.abs(armRotateSub.getEncoderMeters()) < 3){
-            armRotateCounter += 1;
-          }else{
-            armRotateCounter = 0;
-          }
-          if(armRotateCounter >= 20){
-            return true;
-          }
           return false;
-        }
+    }
 }

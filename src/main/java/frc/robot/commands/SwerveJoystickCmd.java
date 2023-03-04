@@ -33,6 +33,7 @@ public class SwerveJoystickCmd extends CommandBase {
 
     @Override
     public void initialize() {
+        swerveSubsystem.resetStates();
     }
 
     @Override
@@ -69,8 +70,6 @@ public class SwerveJoystickCmd extends CommandBase {
 
         // 6. Output each module states to wheels
         swerveSubsystem.setModuleStates(moduleStates);
-        
-
     }
 
     @Override

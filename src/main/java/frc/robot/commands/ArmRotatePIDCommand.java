@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ArmRotatePIDCommand extends CommandBase{
     private final ArmRotateSubsystem armRotateSub;
     private final PIDController pidController;
+    private int armRotateCounter = 0;
 
     public ArmRotatePIDCommand(ArmRotateSubsystem subsystem, double setpoint)
     {
@@ -37,6 +38,14 @@ public class ArmRotatePIDCommand extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        if(Math.abs(armRotateSub.getEncoderMeters()) < 3){
+            armRotateCounter += 1;
+          }else{
+            armRotateCounter = 0;
+          }
+          if(armRotateCounter >= 20){
+            return true;
+          }
+          return false;
     }
 }
