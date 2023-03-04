@@ -28,7 +28,6 @@ public class ClawPIDCommand extends CommandBase{
         // MAY NEED DOULBE ARG METHOD HERE? NOT SURE IF .setSetpoint is right
         double speed = pidController.calculate(clawSubsystem.getEncoderMeters());
         clawSubsystem.setClawSpeed(speed);
-
     }
 
     // Called once the command ends or is interrupted.

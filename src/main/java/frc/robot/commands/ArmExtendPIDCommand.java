@@ -27,7 +27,6 @@ public class ArmExtendPIDCommand extends CommandBase{
     public void execute() {
         double speed = pidController.calculate(armExtendSubsystem.getEncoderMeters());
         armExtendSubsystem.setArmExtendSpeed(speed);
-
     }
 
     // Called once the command ends or is interrupted.
