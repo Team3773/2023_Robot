@@ -11,8 +11,10 @@ public class ElevatorSubsystem extends SubsystemBase{
     CANSparkMax elevatorMotor = new CANSparkMax(OperationConstants.elevatorMotorChannel, MotorType.kBrushless);
     RelativeEncoder elvatorEncoder = elevatorMotor.getEncoder();
 
-    public ElevatorSubsystem() {
-      }
+    public ElevatorSubsystem() 
+    {
+      elvatorEncoder.setPosition(0);
+    }
     
       @Override
       public void periodic() {

@@ -10,14 +10,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmExtendSubsystem extends SubsystemBase{
     
-    public ArmExtendSubsystem() {
-      }
+    public ArmExtendSubsystem() 
+    {
+      armExtendEncoder.reset();
+      armExtendMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
+
+    }
       TalonSRX armExtendMotor = new TalonSRX(OperationConstants.armExtendMotorChannel);
-      Encoder encoder = new Encoder(OperationConstants.karmExtendEncoderA, OperationConstants.karmExtendEncoderB);
+      Encoder armExtendEncoder = new Encoder(OperationConstants.karmExtendEncoderA, OperationConstants.karmExtendEncoderB);
     
       @Override
       public void periodic() {
-        SmartDashboard.putNumber("Arm Extend Encoder: ", encoder.getDistance());
+        SmartDashboard.putNumber("Arm Extend Encoder: ", armExtendEncoder.getDistance());
         // This method will be called once per scheduler run
       }
     
@@ -35,12 +39,7 @@ public class ArmExtendSubsystem extends SubsystemBase{
         armExtendMotor.set(ControlMode.PercentOutput, 0);
       }
 
-      public void setCurrentLimit()
-      {
-        armExtendMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
-      }
-
       public double getEncoderMeters() {
-        return encoder.get() * OperationConstants.kArmExtendEncoderRot2Meter;
+        return armExtendEncoder.get() * OperationConstants.kArmExtendEncoderRot2Meter;
       }
 }

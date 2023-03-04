@@ -19,7 +19,6 @@ public class ArmRotatePIDCommand extends CommandBase{
     @Override
     public void initialize() {
         pidController.reset();
-        armRotateSub.setCurrentLimit();
     }
 
     // Called every time the scheduler runs while the command is scheduled.

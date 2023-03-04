@@ -11,8 +11,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmRotateSubsystem extends SubsystemBase{
     
-    public ArmRotateSubsystem() {
-      }
+    public ArmRotateSubsystem() 
+    {
+      armRotateEncoder.reset();
+      armRotateMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
+    }
       TalonSRX armRotateMotor = new TalonSRX(OperationConstants.armRotateMotorChannel);
       Encoder armRotateEncoder = new Encoder(OperationConstants.karmRotateEncoderA, OperationConstants.karmRotateEncoderB);
       DigitalInput limitSwitch = new DigitalInput(OperationConstants.limitSwitchPort);
@@ -44,11 +47,6 @@ public class ArmRotateSubsystem extends SubsystemBase{
         //   stopMotor();
         // }
         armRotateMotor.set(ControlMode.PercentOutput, speed * OperationConstants.kArmRotateDampner);
-      }
-
-      public void setCurrentLimit()
-      {
-        armRotateMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
       }
 
       public void stopMotor()

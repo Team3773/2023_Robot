@@ -19,7 +19,6 @@ public class ArmExtendCommand extends CommandBase{
     // Runs when command starts
     @Override
     public void initialize() {
-        armExtendSub.setCurrentLimit();
     }
 
     // Runs repeatedly when command is called
