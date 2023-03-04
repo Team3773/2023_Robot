@@ -75,7 +75,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void resetStates() 
     {        
-        // SwerveDriveKinematics.
         frontLeft.resetModuleStates();
         frontRight.resetModuleStates();
         backLeft.resetModuleStates();

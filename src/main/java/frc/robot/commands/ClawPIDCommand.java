@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ClawPIDCommand extends CommandBase{
     private final ClawSubsystem clawSubsystem;
     private final PIDController pidController;
+    private int clawCounter = 0;
 
     public ClawPIDCommand(ClawSubsystem subsystem, double setpoint)
     {
@@ -39,6 +40,14 @@ public class ClawPIDCommand extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
-    }
+        if(Math.abs(clawSubsystem.getEncoderMeters()) < 3){
+            clawCounter += 1;
+          }else{
+            clawCounter = 0;
+          }
+          if(clawCounter >= 20){
+            return true;
+          }
+          return false;
+        }
 }

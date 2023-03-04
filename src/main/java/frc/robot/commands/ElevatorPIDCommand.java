@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ElevatorPIDCommand extends CommandBase{
     private final ElevatorSubsystem elevatorSub;
     private final PIDController pidController;
+    private int elevatorCounter = 0;
+
 
     public ElevatorPIDCommand(ElevatorSubsystem subsystem, double setpoint)
     {
@@ -38,6 +40,14 @@ public class ElevatorPIDCommand extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
-    }
+        if(Math.abs(elevatorSub.getEncoderMeters()) < 3){
+            elevatorCounter += 1;
+          }else{
+            elevatorCounter = 0;
+          }
+          if(elevatorCounter >= 20){
+            return true;
+          }
+          return false;
+    }    
 }

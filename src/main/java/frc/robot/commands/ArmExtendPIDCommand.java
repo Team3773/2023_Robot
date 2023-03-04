@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ArmExtendPIDCommand extends CommandBase{
     private final ArmExtendSubsystem armExtendSubsystem;
     private final PIDController pidController;
+    private int extendCounter = 0;
 
     public ArmExtendPIDCommand(ArmExtendSubsystem subsystem, double setpoint)
     {
@@ -37,6 +38,14 @@ public class ArmExtendPIDCommand extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        if(Math.abs(armExtendSubsystem.getEncoderMeters()) < 3){
+            extendCounter += 1;
+          }else{
+            extendCounter = 0;
+          }
+          if(extendCounter >= 20){
+            return true;
+          }
+          return false;
     }
 }
