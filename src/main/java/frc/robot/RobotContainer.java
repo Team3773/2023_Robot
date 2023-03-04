@@ -69,6 +69,8 @@ public class RobotContainer {
     private JoystickButton buttonRightTrigger;
     private JoystickButton buttonLeftTrigger;
 
+    private JoystickButton driverButtonB;
+
     private final XboxController driverJoytick = new XboxController(OIConstants.kDriverControllerPort);
     private final XboxController operatorJoystick = new XboxController(OIConstants.kOperatorControllerPort);
 
@@ -104,6 +106,7 @@ public class RobotContainer {
         buttonLeftTrigger = new JoystickButton(operatorJoystick, 6);
 
         driverButtonA = new JoystickButton(driverJoytick, 1);
+        driverButtonB = new JoystickButton(driverJoytick, 2);
 
         // buttonY.whileTrue(new ElevatorPIDCommand(elevatorSubsystem, 0));
         buttonY.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(.15), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
@@ -123,6 +126,9 @@ public class RobotContainer {
 
         // USB 0. CLEAR XBOX
         driverButtonA.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+
+        // Balance in teleop
+        driverButtonB.onTrue(new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees));
     }
 
     public Command getAutonomousCommand() {
@@ -135,13 +141,13 @@ public class RobotContainer {
         // 2. Generate trajectory
         Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
                 // Initial point
-                new Pose2d(0, 0, new Rotation2d(0)),
+                new Pose2d(1.96, 2.71, new Rotation2d(0)),
                 List.of(
                         // Other points
-                        new Translation2d(1, 0),
-                        new Translation2d(1, -1)),
+                        new Translation2d(2.98, 2.71),
+                        new Translation2d(3.3, 2.71)),
                 //Final points
-                new Pose2d(2, -1, Rotation2d.fromDegrees(180)),
+                new Pose2d(3.90, 2.71, Rotation2d.fromDegrees(0)), // CHANGED FROM 180 deg
                 trajectoryConfig);
 
         // 3. Define PID controllers for tracking trajectory
