@@ -36,7 +36,7 @@ public class ClawCommand extends CommandBase{
         }
         else if(Math.abs(closeSpeed) > 0.05 && Math.abs(openSpeed) < 0.05)
         {
-            clawSpeed = closeSpeed;
+            clawSpeed = -closeSpeed;
         }
         else
         {
