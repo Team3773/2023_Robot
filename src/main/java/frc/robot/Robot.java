@@ -32,8 +32,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         // ADD BACK
-        // CameraServer.startAutomaticCapture();
-        // CameraServer.startAutomaticCapture();
+        CameraServer.startAutomaticCapture();
+        CameraServer.startAutomaticCapture();
 
         // Instantiate our RobotContainer. This will perform all our button bindings,
         // and put our
