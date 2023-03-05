@@ -134,4 +134,17 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
     }
+
+    public boolean modulesarezero(){
+        if(Math.abs(frontLeft.getAbsoluteEncoderRad()) < .5
+           && Math.abs(frontRight.getAbsoluteEncoderRad()) < .5
+           &&Math.abs(backLeft.getAbsoluteEncoderRad()) < .5
+           &&Math.abs(backRight.getAbsoluteEncoderRad()) < .5
+           ){
+            return true;
+        }
+
+
+        return false;
+    }
 }

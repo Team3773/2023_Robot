@@ -48,18 +48,21 @@ public class SwerveModule {
         driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
         turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
         turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
+        turningPidController = new PIDController(.1, 0, 0);
 
-        turningPidController = new PIDController(1, .4, 0);
+        // turningPidController = new PIDController(0.05, .0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI); 
         
         absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
-
         resetEncoders();
     }
 
     public void resetModuleStates()
     {
-        turningMotor.set(turningPidController.calculate(getAbsoluteEncoderRad(), 0));
+        double thePID = turningPidController.calculate(getAbsoluteEncoderRad(), 0);
+        turningMotor.set(thePID);
+        SmartDashboard.putString("PID number", Double.toString(thePID));
+        System.out.println("RESETTTT!");
     }
 
     public void toSmartDashboard()
@@ -91,10 +94,26 @@ public class SwerveModule {
     public double getAbsoluteEncoderRad() {
         // double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
         double angle = absoluteEncoder.getAbsolutePosition();
-        angle *= Math.PI / 180;
+        angle *= Math.PI / 180;        
         angle -= absoluteEncoderOffsetRad;
-        return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
+        angle *= (absoluteEncoderReversed ? -1.0 : 1.0);
+
+        if(Math.abs(angle)> Math.PI){
+            //need to wrap
+
+            double wrapValue = Math.abs(angle) - Math.PI;
+            if(angle > 0){
+                return (-Math.PI + wrapValue);
+            }else{
+                return (Math.PI - wrapValue);
+            }       
+        }  
+
+        return angle;
     }
+//        return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
+
+    
 
     public double getAbsoluteEncoderRadUser() {
         // double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
@@ -125,7 +144,7 @@ public class SwerveModule {
     }
 
     public void setDesiredState(SwerveModuleState state) {
-        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
+        if (Math.abs(state.speedMetersPerSecond) < 0.5) { //0.001
             stop();
             return;
         }
@@ -138,7 +157,7 @@ public class SwerveModule {
 
     public void stop() {
         driveMotor.set(0);
-        turningMotor.set(0);
+        // turningMotor.set(0);
     }
     
 }

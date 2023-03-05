@@ -31,6 +31,7 @@ import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.ClawPIDCommand;
 import frc.robot.commands.ArmRotatePIDCommand;
 import frc.robot.commands.BalanceOnBeamCommand;
+import frc.robot.commands.CalibrateWheelsCommand;
 import frc.robot.commands.ElevatorPIDCommand;
 import frc.robot.commands.ArmExtendPIDCommand;
 import frc.robot.commands.BalanceOnBeamCommand;
@@ -132,7 +133,7 @@ public class RobotContainer {
         // Balance in teleop
         driverButtonB.onTrue(new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees));
 
-        driverButtonY.onTrue(new InstantCommand(() -> swerveSubsystem.resetStates()));
+        driverButtonY.onTrue(new CalibrateWheelsCommand(swerveSubsystem, 0));
     }
 
     public Command getAutonomousCommand() {
