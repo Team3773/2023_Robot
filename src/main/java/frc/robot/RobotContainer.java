@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
-
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -74,6 +74,9 @@ public class RobotContainer {
 
     private final XboxController driverJoytick = new XboxController(OIConstants.kDriverControllerPort);
     private final XboxController operatorJoystick = new XboxController(OIConstants.kOperatorControllerPort);
+
+    SendableChooser<Command> m_chooser = new SendableChooser<>();
+
 
     public RobotContainer() {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -154,6 +157,18 @@ public class RobotContainer {
                 new Pose2d(3.90, 2.71, Rotation2d.fromDegrees(0)), // CHANGED FROM 180 deg
                 trajectoryConfig);
 
+        // Alternate trajectory
+        Trajectory secondTrajectory = TrajectoryGenerator.generateTrajectory(
+                // Initial point
+                new Pose2d(1.96, 2.71, new Rotation2d(0)),
+                List.of(
+                        // Other points
+                        new Translation2d(2.98, 2.71),
+                        new Translation2d(3.3, 2.71)),
+                //Final points
+                new Pose2d(3.90, 2.71, Rotation2d.fromDegrees(0)), // CHANGED FROM 180 deg
+                trajectoryConfig);
+
         // 3. Define PID controllers for tracking trajectory
         PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
         PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
@@ -173,8 +188,19 @@ public class RobotContainer {
                 swerveSubsystem::setModuleStates,
                 swerveSubsystem);
 
+        // Alternate command to follow trajectory
+        SwerveControllerCommand secondSwerveControllerCommand = new SwerveControllerCommand(
+                secondTrajectory,
+                swerveSubsystem::getPose,
+                DriveConstants.kDriveKinematics,
+                xController,
+                yController,
+                thetaController,
+                swerveSubsystem::setModuleStates,
+                swerveSubsystem);
+
         // 5. Add some init and wrap-up, and return everything
-        return new SequentialCommandGroup(
+        SequentialCommandGroup firstSequentialCommandGroup = new SequentialCommandGroup(
                 /**
                  * Path description: 
                  * Robot starts in community by gates. 
@@ -196,5 +222,35 @@ public class RobotContainer {
                 new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees),
                 // Stop swerve
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
+        
+        SequentialCommandGroup secondSequentialCommandGroup = new SequentialCommandGroup(
+                /**
+                 * Path description: 
+                 * Robot starts in community by gates. 
+                 * Extends arm. 
+                 * Opens claw. 
+                 * Places cube.
+                 * Drives back onto charge station.
+                 */
+
+                 // Extend Arm
+                new ArmExtendPIDCommand(armExtendSubsystem, OperationConstants.kArmExtendSetpoint),
+                // Open Claw
+                new ClawPIDCommand(clawSubsystem, OperationConstants.kClawSetpoint),
+                // Initialize swerve
+                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+                // Follow swerve trajectory defined in 2
+                secondSwerveControllerCommand,
+                // Balance on Beam
+                new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees),
+                // Stop swerve
+                new InstantCommand(() -> swerveSubsystem.stopModules()));
+
+        m_chooser.setDefaultOption("Simple Auto", firstSequentialCommandGroup);
+        m_chooser.addOption("Complex Auto", secondSequentialCommandGroup);
+
+        SmartDashboard.putData(m_chooser);
+
+        return m_chooser.getSelected();
     }
 }
