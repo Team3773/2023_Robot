@@ -31,20 +31,20 @@ public class ElevatorSubsystem extends SubsystemBase{
 
       public void setElevatorSpeed(double speed)
       {
-        while(elvatorEncoder.getPosition() >= OperationConstants.kElevatorTopPosition)
-        {
-          if (speed < 0)
-          {
-            elevatorMotor.set(speed);
-          }
-        }
-        while(elvatorEncoder.getPosition() <= OperationConstants.kElevatorBottomPosition)
-        {
-          if (speed > 0)
-          {
-            elevatorMotor.set(speed);
-          }
-        }
+        // while(elvatorEncoder.getPosition() >= OperationConstants.kElevatorTopPosition)
+        // {
+        //   if (speed < 0)
+        //   {
+        //     elevatorMotor.set(speed);
+        //   }
+        // }
+        // while(elvatorEncoder.getPosition() <= OperationConstants.kElevatorBottomPosition)
+        // {
+        //   if (speed > 0)
+        //   {
+        //     elevatorMotor.set(speed);
+        //   }
+        // }
 
         elevatorMotor.set(speed);
       }

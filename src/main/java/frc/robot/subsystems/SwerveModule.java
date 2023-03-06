@@ -49,18 +49,26 @@ public class SwerveModule {
         turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
         turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
 
-        turningPidController = new PIDController(.1, 0, 0);
+        turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI); 
         
         absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
 
+        // calibrateWheels(turningMotor, absoluteEncoder);
+
         resetEncoders();
     }
 
-    public void resetModuleStates()
-    {
-        turningMotor.set(turningPidController.calculate(getAbsoluteEncoderRad(), 0));
-    }
+    // public void calibrateWheels()
+    // {
+    //     PIDController pid = new PIDController(0.5, 0, 0);
+    //     turningMotor.set(pid.calculate(absoluteEncoder.getPosition(), 0.0));
+    // }
+    // public void calibrateWheels(CANSparkMax turnMotor, CANCoder absCanCoder)
+    // {
+    //     PIDController pid = new PIDController(0.5, 0.5, 0.5);
+    //     turningMotor.set(pid.calculate(absoluteEncoder.getPosition(), 0.0));
+    // }
 
     public void toSmartDashboard()
     {

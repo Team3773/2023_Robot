@@ -73,25 +73,16 @@ public class SwerveSubsystem extends SubsystemBase {
         }).start();
     }
 
-    public void resetStates() 
-    {        
-        frontLeft.resetModuleStates();
-        frontRight.resetModuleStates();
-        backLeft.resetModuleStates();
-        backRight.resetModuleStates();
-    }
-
     public void zeroHeading() {
         gyro.reset();
+    }
+
+    public void doNothing() {
+        
     }
     
     public double getHeading() {
         return Math.IEEEremainder(gyro.getAngle(), 360);
-    }
-
-    public double getPitch()
-    {
-        return gyro.getPitch();
     }
 
     public Rotation2d getRotation2d() {
@@ -133,5 +124,10 @@ public class SwerveSubsystem extends SubsystemBase {
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
+    }
+    
+    public double getPitch()
+    {
+        return gyro.getPitch();
     }
 }

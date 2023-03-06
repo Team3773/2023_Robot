@@ -132,7 +132,7 @@ public class RobotContainer {
         // Balance in teleop
         driverButtonB.onTrue(new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees));
 
-        driverButtonY.onTrue(new InstantCommand(() -> swerveSubsystem.resetStates()));
+        // driverButtonY.onTrue(new InstantCommand(() -> swerveSubsystem.resetStates()));
     }
 
     public Command getAutonomousCommand() {
