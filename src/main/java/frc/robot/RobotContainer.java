@@ -87,7 +87,7 @@ public class RobotContainer {
         
         // Open claw with right trigger axis. 
         // Close claw with left trigger axis. 
-        clawSubsystem.setDefaultCommand(new ClawCommand(clawSubsystem, () -> operatorJoystick.getRightTriggerAxis(), () -> operatorJoystick.getLeftTriggerAxis()));
+        clawSubsystem.setDefaultCommand(new ClawCommand(clawSubsystem, () -> operatorJoystick.getRightTriggerAxis() * 0.1, () -> operatorJoystick.getLeftTriggerAxis() * 0.1));
         // Extend or retract arm with right y-axis.
         armExtendSubsystem.setDefaultCommand(new ArmExtendCommand(armExtendSubsystem, () -> operatorJoystick.getRightY()));
         // Rotate arm with left y-axis.

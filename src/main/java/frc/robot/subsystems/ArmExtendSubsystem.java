@@ -38,7 +38,7 @@ public class ArmExtendSubsystem extends SubsystemBase{
       }
       public void setArmExtendSpeed(double speed)
       {
-        armExtendMotor.set(speed * OperationConstants.kArmExtendDampner);
+        armExtendMotor.set(speed); //OperationConstants.kArmExtendDampner
       }
 
       public void stopMotor()
