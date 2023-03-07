@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import javax.lang.model.util.ElementScanner14;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
@@ -31,21 +33,24 @@ public class ElevatorSubsystem extends SubsystemBase{
 
       public void setElevatorSpeed(double speed)
       {
-        // while(elvatorEncoder.getPosition() >= OperationConstants.kElevatorTopPosition)
+        // if(elvatorEncoder.getPosition() >= OperationConstants.kElevatorTopPosition)
         // {
         //   if (speed < 0)
         //   {
         //     elevatorMotor.set(speed);
         //   }
         // }
-        // while(elvatorEncoder.getPosition() <= OperationConstants.kElevatorBottomPosition)
+        // else if(elvatorEncoder.getPosition() <= OperationConstants.kElevatorBottomPosition)
         // {
         //   if (speed > 0)
         //   {
         //     elevatorMotor.set(speed);
         //   }
         // }
-
+        // else
+        // {
+        //   elevatorMotor.set(speed);
+        // }
         elevatorMotor.set(speed);
       }
 

@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ArmRotateCommand extends CommandBase{
     private final ArmRotateSubsystem armRotateSub;
     private final Supplier<Double> rotateSpeedFunction;
-    private int armRotateCounter = 0;
 
     public ArmRotateCommand(ArmRotateSubsystem subsystem, Supplier<Double> rotateSpeedFunction)
     {

@@ -65,7 +65,7 @@ public final class Constants {
         public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -2.04; // 10
         public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -2.28; // 12
 
-        public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
+        public static final double kPhysicalMaxSpeedMetersPerSecond = 5; // PLAY WITH MAX SPEED
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
@@ -106,8 +106,15 @@ public final class Constants {
 
       // CHANGE VALUES BASED ON ENCODER READINGS
       public static final double kElevatorBottomPosition = -129.45;
-      public static final double kElevatorTopPosition = 5.76;
-      public static final double kElevatorMiddlePosition = (kElevatorBottomPosition + kElevatorTopPosition) / 2;
+      public static final double kElevatorTopPosition = 0;
+
+      public static final double kClawStopGrabPoint = 0;
+      
+      public static final double kTopArmRotatePoint = 0;
+      public static final double kBottomArmRotatePoint = 0;
+
+      public static final double kTopArmExtendPoint = 0;
+      public static final double kBottomArmExtendPoint = 0;
 
       // EXTERNAL ENCODER PORTS
       public static final int karmExtendEncoderA = 0;

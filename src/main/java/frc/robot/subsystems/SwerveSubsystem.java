@@ -77,10 +77,14 @@ public class SwerveSubsystem extends SubsystemBase {
         gyro.reset();
     }
 
-    public void doNothing() {
-        
+    public void resetStates() 
+    {        
+        frontLeft.resetModuleStates();
+        frontRight.resetModuleStates();
+        backLeft.resetModuleStates();
+        backRight.resetModuleStates();
     }
-    
+
     public double getHeading() {
         return Math.IEEEremainder(gyro.getAngle(), 360);
     }
@@ -106,6 +110,7 @@ public class SwerveSubsystem extends SubsystemBase {
         backRight.toSmartDashboard();
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+        SmartDashboard.putNumber("Robot Pitch", getPitch());
     }
 
     public void stopModules() {
@@ -129,5 +134,19 @@ public class SwerveSubsystem extends SubsystemBase {
     public double getPitch()
     {
         return gyro.getPitch();
+    }
+    public boolean modulesarezero()
+    {
+        if(Math.abs(frontLeft.getAbsoluteEncoderRad()) < .5
+           && Math.abs(frontRight.getAbsoluteEncoderRad()) < .5
+           &&Math.abs(backLeft.getAbsoluteEncoderRad()) < .5
+           &&Math.abs(backRight.getAbsoluteEncoderRad()) < .5
+           )
+        {
+            stopModules();
+            return true;
+        }
+
+        return false;
     }
 }

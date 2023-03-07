@@ -13,7 +13,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class BalanceOnBeamCommand extends CommandBase {
   private final SwerveSubsystem swerveSub;
-  private double setPoint;
   private final PIDController pidController;
   private int balanceCounter = 0;
 

@@ -96,31 +96,33 @@ public class SwerveModule {
         return turningEncoder.getVelocity();
     }
 
+    public void resetModuleStates()
+    {
+        PIDController calibratePIDController = new PIDController(.2, 0, 0);
+        turningMotor.set(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0));
+        // SmartDashboard.putString("PID number", Double.toString(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0)));
+        // System.out.println("RESETTTT!");
+    }
+
     public double getAbsoluteEncoderRad() {
         // double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
         double angle = absoluteEncoder.getAbsolutePosition();
-        angle *= Math.PI / 180;
+        angle *= Math.PI / 180;        
         angle -= absoluteEncoderOffsetRad;
-        return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
-    }
+        angle *= (absoluteEncoderReversed ? -1.0 : 1.0);
 
-    public double getAbsoluteEncoderRadUser() {
-        // double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
-        double theAngle;
-        double angle = absoluteEncoder.getAbsolutePosition();
-        angle *= Math.PI / 180;
-        angle -= Math.abs(absoluteEncoderOffsetRad);
+        if(Math.abs(angle)> Math.PI){
+            //need to wrap
 
-        if(angle < 0)
-        {
-            theAngle = 2*Math.PI + angle;
-        }
-        else
-        {
-            theAngle = angle;
-        }
+            double wrapValue = Math.abs(angle) - Math.PI;
+            if(angle > 0){
+                return (-Math.PI + wrapValue);
+            }else{
+                return (Math.PI - wrapValue);
+            }       
+        }  
 
-        return theAngle * (absoluteEncoderReversed ? -1.0 : 1.0);
+        return angle;
     }
 
     public void resetEncoders() {

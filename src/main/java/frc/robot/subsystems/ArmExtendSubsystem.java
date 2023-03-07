@@ -38,6 +38,24 @@ public class ArmExtendSubsystem extends SubsystemBase{
       }
       public void setArmExtendSpeed(double speed)
       {
+        // if(armExtendEncoder.getPosition() >= OperationConstants.kElevatorTopPosition)
+        // {
+        //   if (speed < 0)
+        //   {
+        //     armExtendMotor.set(speed);
+        //   }
+        // }
+        // else if(armExtendEncoder.getPosition() <= OperationConstants.kElevatorBottomPosition)
+        // {
+        //   if (speed > 0)
+        //   {
+        //     armExtendMotor.set(speed);
+        //   }
+        // }
+        // else
+        // {
+        //   armExtendMotor.set(speed);
+        // }
         armExtendMotor.set(speed); //OperationConstants.kArmExtendDampner
       }
 

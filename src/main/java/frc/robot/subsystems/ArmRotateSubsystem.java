@@ -19,7 +19,6 @@ public class ArmRotateSubsystem extends SubsystemBase{
     }
       TalonSRX armRotateMotor = new TalonSRX(OperationConstants.armRotateMotorChannel);
       Encoder armRotateEncoder = new Encoder(OperationConstants.karmRotateEncoderA, OperationConstants.karmRotateEncoderB);
-      DigitalInput limitSwitch = new DigitalInput(OperationConstants.limitSwitchPort);
 
       @Override
       public void periodic() {
@@ -35,17 +34,23 @@ public class ArmRotateSubsystem extends SubsystemBase{
       }
       public void setArmRotateSpeed(double speed)
       {
-        // if(!limitSwitch.get())
+        // if(this.getEncoderMeters() >= OperationConstants.kTopArmRotatePoint)
         // {
-        //   armRotateMotor.set(ControlMode.PercentOutput, speed);
+        //   if (speed < 0)
+        //   {
+        //     armRotateMotor.set(ControlMode.PercentOutput, speed * OperationConstants.kArmRotateDampner);
+        //   }
         // }
-        // else if(speed > 0)
+        // else if(this.getEncoderMeters() <= OperationConstants.kBottomArmRotatePoint)
         // {
-        //   armRotateMotor.set(ControlMode.PercentOutput, speed);
+        //   if (speed > 0)
+        //   {
+        //     armRotateMotor.set(ControlMode.PercentOutput, speed * OperationConstants.kArmRotateDampner);
+        //   }
         // }
         // else
         // {
-        //   stopMotor();
+        //   armRotateMotor.set(ControlMode.PercentOutput, speed * OperationConstants.kArmRotateDampner);
         // }
         armRotateMotor.set(ControlMode.PercentOutput, speed * OperationConstants.kArmRotateDampner);
       }
