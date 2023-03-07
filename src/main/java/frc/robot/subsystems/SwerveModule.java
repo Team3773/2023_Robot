@@ -98,7 +98,7 @@ public class SwerveModule {
 
     public void resetModuleStates()
     {
-        PIDController calibratePIDController = new PIDController(.2, 0, 0);
+        PIDController calibratePIDController = new PIDController(.05, 0, 0);
         turningMotor.set(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0));
         // SmartDashboard.putString("PID number", Double.toString(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0)));
         // System.out.println("RESETTTT!");

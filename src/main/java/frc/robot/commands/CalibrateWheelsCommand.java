@@ -9,13 +9,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class CalibrateWheelsCommand extends CommandBase {
-  private final PIDController pidController;
   private final SwerveSubsystem swerveSub;
 
   /** Creates a new CalibrateWheelsCommand. */
-  public CalibrateWheelsCommand(SwerveSubsystem swerveSub, double setPoint) {
+  public CalibrateWheelsCommand(SwerveSubsystem swerveSub) {
     this.swerveSub = swerveSub;
-    this.pidController = new PIDController(0.1, 0, 0);
     addRequirements(swerveSub);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -23,7 +21,6 @@ public class CalibrateWheelsCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pidController.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

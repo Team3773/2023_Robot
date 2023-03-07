@@ -137,7 +137,7 @@ public class RobotContainer {
 
         // driverButtonY.whileTrue(new InstantCommand(() -> swerveSubsystem.resetStates()));
 
-        driverButtonY.onTrue(new CalibrateWheelsCommand(swerveSubsystem, 0));
+        driverButtonY.onTrue(new CalibrateWheelsCommand(swerveSubsystem));
     }
 
     public Command getAutonomousCommand() {

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.OperationConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
     private final SwerveModule frontLeft = new SwerveModule(
@@ -136,13 +137,36 @@ public class SwerveSubsystem extends SubsystemBase {
         return gyro.getPitch();
     }
     public boolean modulesarezero()
-    {
-        if(Math.abs(frontLeft.getAbsoluteEncoderRad()) < .5
-           && Math.abs(frontRight.getAbsoluteEncoderRad()) < .5
-           &&Math.abs(backLeft.getAbsoluteEncoderRad()) < .5
-           &&Math.abs(backRight.getAbsoluteEncoderRad()) < .5
-           )
+    {        
+        if((Math.abs(frontLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(frontLeft.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
         {
+            frontLeft.stop();
+        }
+        if((Math.abs(frontRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(frontRight.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
+        {
+            frontRight.stop();
+        }
+        if((Math.abs(backLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(backLeft.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
+        {
+            backLeft.stop();
+        }
+        if((Math.abs(backRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(backRight.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
+        {
+            backRight.stop();
+        }
+
+        if(
+            ((Math.abs(frontLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(frontLeft.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
+            &&((Math.abs(frontRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(frontRight.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
+            &&((Math.abs(backLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(backLeft.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
+            &&((Math.abs(backRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(backRight.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
+        //    && Math.abs(frontRight.getAbsoluteEncoderRad()) < .2
+        //    &&Math.abs(backLeft.getAbsoluteEncoderRad()) < .2
+        //    &&Math.abs(backRight.getAbsoluteEncoderRad()) < .2
+           )
+        
+        {
+            System.out.println("CALIBRATED");
             stopModules();
             return true;
         }

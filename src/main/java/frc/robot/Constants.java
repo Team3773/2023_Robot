@@ -100,6 +100,7 @@ public final class Constants {
       // DAMPNERS
       public static final double kArmRotateDampner = .5;
       public static final double kArmExtendDampner = .5;
+      public static final double kSwerveDeadband = 0.05;
 
       // CHARGE STATION
       public static final double kBeam_Balance_Goal_Degrees = 0.0;
