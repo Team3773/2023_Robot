@@ -59,17 +59,6 @@ public class SwerveModule {
         resetEncoders();
     }
 
-    // public void calibrateWheels()
-    // {
-    //     PIDController pid = new PIDController(0.5, 0, 0);
-    //     turningMotor.set(pid.calculate(absoluteEncoder.getPosition(), 0.0));
-    // }
-    // public void calibrateWheels(CANSparkMax turnMotor, CANCoder absCanCoder)
-    // {
-    //     PIDController pid = new PIDController(0.5, 0.5, 0.5);
-    //     turningMotor.set(pid.calculate(absoluteEncoder.getPosition(), 0.0));
-    // }
-
     public void toSmartDashboard()
     {
         SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state", Double.toString(getAbsoluteEncoderRad()));
@@ -98,8 +87,8 @@ public class SwerveModule {
 
     public void resetModuleStates()
     {
-        PIDController calibratePIDController = new PIDController(.05, 0, 0);
-        turningMotor.set(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0));
+        PIDController calibratePIDController = new PIDController(.035, 0, 0);
+        turningMotor.set(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0.15));
         // SmartDashboard.putString("PID number", Double.toString(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0)));
         // System.out.println("RESETTTT!");
     }
@@ -111,17 +100,22 @@ public class SwerveModule {
         angle -= absoluteEncoderOffsetRad;
         angle *= (absoluteEncoderReversed ? -1.0 : 1.0);
 
-        if(Math.abs(angle)> Math.PI){
+        if(Math.abs(angle)> Math.PI)
+        {
             //need to wrap
 
             double wrapValue = Math.abs(angle) - Math.PI;
-            if(angle > 0){
+            if(angle > 0)
+            {
+                SmartDashboard.putNumber("getAbsoluteEncoderRad", -Math.PI + wrapValue);
                 return (-Math.PI + wrapValue);
-            }else{
+            }else
+            {
+                SmartDashboard.putNumber("getAbsoluteEncoderRad", Math.PI - wrapValue);
                 return (Math.PI - wrapValue);
             }       
         }  
-
+        SmartDashboard.putNumber("getAbsoluteEncoderRad", angle);
         return angle;
     }
 

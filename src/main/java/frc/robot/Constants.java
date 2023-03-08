@@ -45,7 +45,7 @@ public final class Constants {
         public static final boolean kFrontRightTurningEncoderReversed = false;
         public static final boolean kBackRightTurningEncoderReversed = false;
 
-        public static final boolean kFrontLeftDriveEncoderReversed = true; //true
+        public static final boolean kFrontLeftDriveEncoderReversed = false; //true
         public static final boolean kBackLeftDriveEncoderReversed = false;
         public static final boolean kFrontRightDriveEncoderReversed = true; //true
         public static final boolean kBackRightDriveEncoderReversed = false;
@@ -60,7 +60,7 @@ public final class Constants {
         public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -2.54; // 9
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -2.54; // 9 // -2.54
         public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 2.84; // 11
         public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -2.04; // 10
         public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -2.28; // 12
@@ -100,7 +100,7 @@ public final class Constants {
       // DAMPNERS
       public static final double kArmRotateDampner = .5;
       public static final double kArmExtendDampner = .5;
-      public static final double kSwerveDeadband = 0.05;
+      public static final double kSwerveDeadband = 0.1;
 
       // CHARGE STATION
       public static final double kBeam_Balance_Goal_Degrees = 0.0;
