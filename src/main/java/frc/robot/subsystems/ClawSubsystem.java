@@ -45,6 +45,11 @@ public class ClawSubsystem extends SubsystemBase{
 
       }
 
+      public void zeroEncoder()
+      {
+        clawEncoder.setPosition(0);
+      }
+
       public void stopMotor()
       {
         clawMotor.set(0);

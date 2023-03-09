@@ -64,6 +64,11 @@ public class ArmExtendSubsystem extends SubsystemBase{
         armExtendMotor.set(0);
       }
 
+      public void zeroEncoder()
+      {
+        armExtendEncoder.setPosition(0);
+      }
+
       public double getEncoderMeters() {
         return armExtendEncoder.getPosition();
       }

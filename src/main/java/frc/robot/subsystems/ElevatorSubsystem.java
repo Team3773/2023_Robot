@@ -59,6 +59,11 @@ public class ElevatorSubsystem extends SubsystemBase{
         elevatorMotor.set(0);
       }
 
+      public void zeroEncoder()
+      {
+        elvatorEncoder.setPosition(0);
+      }
+
       public double getEncoderMeters() {
         return elvatorEncoder.getPosition();
       }

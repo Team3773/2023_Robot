@@ -59,7 +59,10 @@ public class ArmRotateSubsystem extends SubsystemBase{
       {
         armRotateMotor.set(ControlMode.PercentOutput, 0);
       }
-
+      public void zeroEncoder()
+      {
+        armRotateEncoder.reset();
+      }
       public double getEncoderMeters() {
         return armRotateEncoder.getDistance();
         // return armRotateEncoder.get() * OperationConstants.kArmRotateEncoderRot2Meter;
