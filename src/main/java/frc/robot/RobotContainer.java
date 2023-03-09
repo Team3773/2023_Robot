@@ -71,10 +71,24 @@ public class RobotContainer {
 
     SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+    private double operateLeftYSpeed = 0;
+    private double operateRightYSpeed = 0;
+
     public RobotContainer() {
         m_chooser.setDefaultOption("Simple Auto", blueAutoCommand());
         m_chooser.addOption("Complex Auto", redAutoCommand());
         m_chooser.addOption("Test Command", testCommand());
+
+
+        if(Math.abs(operatorJoystick.getLeftY()) > .1)
+        {
+                operateLeftYSpeed = operatorJoystick.getLeftY();
+        }
+
+        if(Math.abs(operatorJoystick.getRightY()) > .1)
+        {
+                operateRightYSpeed = operatorJoystick.getRightY();
+        }
 
         Shuffleboard.getTab("Autonomous ").add(m_chooser);
 
@@ -89,10 +103,10 @@ public class RobotContainer {
         clawSubsystem.setDefaultCommand(new ClawCommand(clawSubsystem, () -> operatorJoystick.getRightTriggerAxis() * 0.1, () -> operatorJoystick.getLeftTriggerAxis() * 0.1));
 
         // Extend or retract arm with right y-axis.
-        armExtendSubsystem.setDefaultCommand(new ArmExtendCommand(armExtendSubsystem, () -> operatorJoystick.getRightY()));
+        armExtendSubsystem.setDefaultCommand(new ArmExtendCommand(armExtendSubsystem, () -> operateLeftYSpeed));
 
         // Rotate arm with left y-axis.
-        armRotateSubsystem.setDefaultCommand(new ArmRotateCommand(armRotateSubsystem, () -> operatorJoystick.getLeftY()));
+        armRotateSubsystem.setDefaultCommand(new ArmRotateCommand(armRotateSubsystem, () -> operateRightYSpeed));
 
         configureButtonBindings();
     }
