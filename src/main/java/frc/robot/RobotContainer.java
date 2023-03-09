@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
@@ -71,6 +72,12 @@ public class RobotContainer {
     SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     public RobotContainer() {
+        m_chooser.setDefaultOption("Simple Auto", blueAutoCommand());
+        m_chooser.addOption("Complex Auto", redAutoCommand());
+        m_chooser.addOption("Test Command", testCommand());
+
+        Shuffleboard.getTab("Autonomous ").add(m_chooser);
+
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
                 () -> -driverJoytick.getLeftY(),
@@ -146,9 +153,9 @@ public class RobotContainer {
         // BALANCE IN TELEOP
         driverButtonRightTrigger.onTrue(new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees));
     }
-    
-    public Command getAutonomousCommand() {
-        // 1. Create trajectory settings
+
+    public Command blueAutoCommand()
+    {
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
                 AutoConstants.kMaxSpeedMetersPerSecond,
                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
@@ -160,25 +167,12 @@ public class RobotContainer {
                 new Pose2d(1.96, 2.71, new Rotation2d(0)),
                 List.of(
                         // Other points
-                        new Translation2d(2.98, 2.71),
-                        new Translation2d(3.3, 2.71)),
+                        new Translation2d(2.10, 2.71),
+                        new Translation2d(2.80, 2.71)),
                 //Final points
                 new Pose2d(3.90, 2.71, Rotation2d.fromDegrees(0)), // CHANGED FROM 180 deg
                 trajectoryConfig);
-
-        // Alternate trajectory
-        Trajectory secondTrajectory = TrajectoryGenerator.generateTrajectory(
-                // Initial point
-                new Pose2d(1.96, 2.71, new Rotation2d(0)),
-                List.of(
-                        // Other points
-                        new Translation2d(2.98, 2.71),
-                        new Translation2d(3.3, 2.71)),
-                //Final points
-                new Pose2d(3.90, 2.71, Rotation2d.fromDegrees(0)), // CHANGED FROM 180 deg
-                trajectoryConfig);
-
-        // 3. Define PID controllers for tracking trajectory
+        
         PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
         PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
         // Profile to max interval
@@ -197,7 +191,45 @@ public class RobotContainer {
                 swerveSubsystem::setModuleStates,
                 swerveSubsystem);
 
-        // Alternate command to follow trajectory
+        // 5. Add some init and wrap-up, and return everything
+        SequentialCommandGroup firstSequentialCommandGroup = new SequentialCommandGroup(
+                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+                // Follow swerve trajectory defined in 2
+                swerveControllerCommand,
+                // Balance on Beam
+                // // Stop swerve
+                new InstantCommand(() -> swerveSubsystem.stopModules()));
+        
+        return firstSequentialCommandGroup;
+        } 
+
+    public Command redAutoCommand()
+    {
+        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+                AutoConstants.kMaxSpeedMetersPerSecond,
+                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                        .setKinematics(DriveConstants.kDriveKinematics);
+
+        // Alternate trajectory
+        Trajectory secondTrajectory = TrajectoryGenerator.generateTrajectory(
+                // Initial point
+                new Pose2d(14.67, 2.71, new Rotation2d(0)),
+                List.of(
+                        // Other points
+                        new Translation2d(13.1, 2.71),
+                        new Translation2d(13.8, 2.71)),
+                //Final points
+                new Pose2d(12.620, 2.71, Rotation2d.fromDegrees(0)), // CHANGED FROM 180 deg
+                trajectoryConfig);
+
+        // 3. Define PID controllers for tracking trajectory
+        PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
+        PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+        // Profile to max interval
+        ProfiledPIDController thetaController = new ProfiledPIDController(
+                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
         SwerveControllerCommand secondSwerveControllerCommand = new SwerveControllerCommand(
                 secondTrajectory,
                 swerveSubsystem::getPose,
@@ -207,53 +239,28 @@ public class RobotContainer {
                 thetaController,
                 swerveSubsystem::setModuleStates,
                 swerveSubsystem);
-
-        // 5. Add some init and wrap-up, and return everything
-        SequentialCommandGroup firstSequentialCommandGroup = new SequentialCommandGroup(
-                /**
-                 * Path description: 
-                 * Robot starts in community by gates. 
-                 * Extends arm. 
-                 * Opens claw. 
-                 * Places cube.
-                 * Drives back onto charge station.
-                 */
-                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
-                // Follow swerve trajectory defined in 2
-                swerveControllerCommand,
-                // Balance on Beam
-                // new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees),
-                // // Stop swerve
-                new InstantCommand(() -> swerveSubsystem.stopModules()));
                 
         SequentialCommandGroup secondSequentialCommandGroup = new SequentialCommandGroup(
-                /**
-                 * Path description: 
-                 * Robot starts in community by gates. 
-                 * Extends arm. 
-                 * Opens claw. 
-                 * Places cube.
-                 * Drives back onto charge station.
-                 */
-
-                 // Extend Arm
-                // new ArmExtendPIDCommand(armExtendSubsystem, OperationConstants.kArmExtendSetpoint),
-                // // Open Claw
-                // new ClawPIDCommand(clawSubsystem, OperationConstants.kClawSetpoint),
-                // // Initialize swerve
-                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+                
+                new InstantCommand(() -> swerveSubsystem.resetOdometry(secondTrajectory.getInitialPose())),
                 // Follow swerve trajectory defined in 2
                 secondSwerveControllerCommand,
                 // Balance on Beam
-                // new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees),
                 // Stop swerve
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
+        return secondSequentialCommandGroup;
+    }
 
-        m_chooser.setDefaultOption("Simple Auto", firstSequentialCommandGroup);
-        m_chooser.addOption("Complex Auto", secondSequentialCommandGroup);
-
-        SmartDashboard.putData(m_chooser);
-
+    public Command testCommand()
+    {          
+        SequentialCommandGroup testSequentialCommandGroup = new SequentialCommandGroup(
+                new ArmExtendPIDCommand(armExtendSubsystem, 51),
+                new ClawPIDCommand(clawSubsystem, -50)
+                );
+        return testSequentialCommandGroup;
+    }
+    
+    public Command getAutonomousCommand() {
         return m_chooser.getSelected();
     }
 }
