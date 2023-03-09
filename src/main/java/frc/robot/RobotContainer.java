@@ -61,17 +61,22 @@ public class RobotContainer {
      * Elevator: Y: Up | A: Down
      * Claw: Left Trigger: Open | Right Trigger: Close 
      */
-
-    private JoystickButton buttonY;
+    
+     // OPERATOR
     private JoystickButton buttonA;
-    private JoystickButton buttonX;
     private JoystickButton buttonB;
-    private JoystickButton driverButtonA;
-    private JoystickButton buttonRightTrigger;
+    private JoystickButton buttonX;
+    private JoystickButton buttonY;
     private JoystickButton buttonLeftTrigger;
+    private JoystickButton buttonRightTrigger;
 
+    // DRIVER
+    private JoystickButton driverButtonA;
     private JoystickButton driverButtonB;
+    private JoystickButton driverButtonX;
     private JoystickButton driverButtonY;
+    private JoystickButton driverButtonLeftTrigger;
+    private JoystickButton driverButtonRightTrigger;
 
     private final XboxController driverJoytick = new XboxController(OIConstants.kDriverControllerPort);
     private final XboxController operatorJoystick = new XboxController(OIConstants.kOperatorControllerPort);
@@ -100,25 +105,31 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        // USB 1. NOT CLEAR XBOX
-        buttonY = new JoystickButton(operatorJoystick, 4);
         buttonA = new JoystickButton(operatorJoystick, 1);
-
         buttonB = new JoystickButton(operatorJoystick, 2);
         buttonX = new JoystickButton(operatorJoystick, 3);
-        buttonRightTrigger = new JoystickButton(operatorJoystick, 5);
+        buttonY = new JoystickButton(operatorJoystick, 4);
         buttonLeftTrigger = new JoystickButton(operatorJoystick, 6);
+        buttonRightTrigger = new JoystickButton(operatorJoystick, 5);
 
         driverButtonA = new JoystickButton(driverJoytick, 1);
         driverButtonB = new JoystickButton(driverJoytick, 2);
+        driverButtonX = new JoystickButton(driverJoytick, 3);
         driverButtonY = new JoystickButton(driverJoytick, 4);
+        driverButtonLeftTrigger = new JoystickButton(driverJoytick, 6);
+        driverButtonRightTrigger = new JoystickButton(operatorJoystick, 5);
 
-        // buttonY.whileTrue(new ElevatorPIDCommand(elevatorSubsystem, 0));
+        // MANUALLY TUNE ELEVATOR UP AND DOWN
         buttonY.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(.15), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
         buttonA.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(-.15), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
 
         // PLACE TOP
-        buttonB.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -20));
+        // buttonB.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -20));
+        buttonB.onTrue(new SequentialCommandGroup(
+                new ElevatorPIDCommand(elevatorSubsystem, -20),
+                new ArmExtendPIDCommand(armExtendSubsystem, 20),
+                new ClawPIDCommand(clawSubsystem, 20)
+        ));
 
         // PLACE BOTTOM
         buttonX.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -35));
@@ -126,20 +137,26 @@ public class RobotContainer {
         // PICK UP FROM FLOOR
         buttonRightTrigger.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -100));
 
-        // buttonRightTrigger.onTrue(new ArmExtendPIDCommand(armExtendSubsystem, 118));
-        // buttonLeftTrigger.onTrue(new ArmRotatePIDCommand(armRotateSubsystem, 55));
+        /*===================DRIVER==============================================*/
 
-        // USB 0. CLEAR XBOX
+        // ZERO GYRO
         driverButtonA.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
-        // Balance in teleop
-        driverButtonB.onTrue(new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees));
+        // ZERO ENCODERS
+        driverButtonB.onTrue(new SequentialCommandGroup(
+                new InstantCommand(() -> elevatorSubsystem.zeroEncoder()),
+                new InstantCommand(() -> armExtendSubsystem.zeroEncoder()),
+                new InstantCommand(() -> clawSubsystem.zeroEncoder()),
+                new InstantCommand(() -> armRotateSubsystem.zeroEncoder())
+                ));
+        
+        // CALIBRATE WHEELS
+        driverButtonX.onTrue(new CalibrateWheelsCommand(swerveSubsystem));
 
-        // driverButtonY.whileTrue(new InstantCommand(() -> swerveSubsystem.resetStates()));
-
-        driverButtonY.onTrue(new CalibrateWheelsCommand(swerveSubsystem));
+        // BALANCE IN TELEOP
+        driverButtonRightTrigger.onTrue(new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees));
     }
-
+    
     public Command getAutonomousCommand() {
         // 1. Create trajectory settings
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(

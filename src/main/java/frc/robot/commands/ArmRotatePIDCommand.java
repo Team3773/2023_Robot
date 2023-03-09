@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import frc.robot.Constants.OperationConstants;
 import frc.robot.subsystems.ArmRotateSubsystem;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -7,10 +8,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ArmRotatePIDCommand extends CommandBase{
     private final ArmRotateSubsystem armRotateSub;
     private final PIDController pidController;
+    private double setpoint;
     private int armRotateCounter = 0;
 
     public ArmRotatePIDCommand(ArmRotateSubsystem subsystem, double setpoint)
     {
+        this.setpoint = setpoint;
         armRotateSub = subsystem;
         this.pidController = new PIDController(0.15, 0, 0); 
         pidController.setSetpoint(setpoint);
@@ -38,7 +41,7 @@ public class ArmRotatePIDCommand extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if(Math.abs(armRotateSub.getEncoderMeters()) < 3){
+        if((armRotateSub.getEncoderMeters() < (setpoint + OperationConstants.setpointDeadband)) || (armRotateSub.getEncoderMeters() > (setpoint - OperationConstants.setpointDeadband))){
             armRotateCounter += 1;
           }else{
             armRotateCounter = 0;

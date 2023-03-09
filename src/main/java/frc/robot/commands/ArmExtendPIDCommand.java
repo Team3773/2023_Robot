@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import frc.robot.Constants.OperationConstants;
 import frc.robot.subsystems.ArmExtendSubsystem;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -7,10 +8,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ArmExtendPIDCommand extends CommandBase{
     private final ArmExtendSubsystem armExtendSubsystem;
     private final PIDController pidController;
+    private double setpoint;
     private int extendCounter = 0;
 
     public ArmExtendPIDCommand(ArmExtendSubsystem subsystem, double setpoint)
     {
+        this.setpoint = setpoint;
         armExtendSubsystem = subsystem;
         this.pidController = new PIDController(0.15, 0, 0); 
         pidController.setSetpoint(setpoint);
@@ -38,7 +41,7 @@ public class ArmExtendPIDCommand extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if(Math.abs(armExtendSubsystem.getEncoderMeters()) < 3){
+        if((armExtendSubsystem.getEncoderMeters() < (setpoint + OperationConstants.setpointDeadband)) || (armExtendSubsystem.getEncoderMeters() > (setpoint - OperationConstants.setpointDeadband))){
             extendCounter += 1;
           }else{
             extendCounter = 0;
