@@ -79,23 +79,6 @@ public class SwerveSubsystem extends SubsystemBase {
         gyro.reset();
     }
 
-    public void resetStates() 
-    {        
-        frontLeft.resetModuleStates();
-        frontRight.resetModuleStates();
-        backLeft.resetModuleStates();
-        backRight.resetModuleStates();
-    }
-
-    public void zeroAbsEncodersSwerveSub()
-    {
-        System.out.println("ZEROOO SUB");
-        frontLeft.zeroAbsEncoder();
-        frontRight.zeroAbsEncoder();
-        backLeft.zeroAbsEncoder();
-        backRight.zeroAbsEncoder();
-    }
-
     public double getHeading() {
         return Math.IEEEremainder(gyro.getAngle(), 360);
     }
@@ -146,9 +129,28 @@ public class SwerveSubsystem extends SubsystemBase {
     {
         return gyro.getPitch();
     }
+
+    public void resetStates() 
+    {        
+        frontLeft.resetModuleStates();
+        frontRight.resetModuleStates();
+        backLeft.resetModuleStates();
+        backRight.resetModuleStates();
+    }
+
+    public void zeroAbsEncodersSwerveSub()
+    {
+        System.out.println("ZERO SWERVE SUB");
+        frontLeft.zeroAbsEncoder();
+        frontRight.zeroAbsEncoder();
+        backLeft.zeroAbsEncoder();
+        backRight.zeroAbsEncoder();
+    }
+
     public boolean modulesarezero()
     {   
-        System.out.println("TRYING");
+        System.out.println("MODULES ARE ZERO RUNNING");
+
         if((Math.abs(frontLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(frontLeft.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
         {
             frontLeft.stop();
@@ -172,7 +174,7 @@ public class SwerveSubsystem extends SubsystemBase {
             &&((Math.abs(backLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(backLeft.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
             &&((Math.abs(backRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(backRight.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband)))           
         {
-            System.out.println("CALIBRATED");
+            System.out.println("ZEROED");
             stopModules();
             return true;
         }
@@ -180,72 +182,3 @@ public class SwerveSubsystem extends SubsystemBase {
         return false;
     }
 }
-//         if((Math.abs(frontLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(frontLeft.getAbsoluteEncoderRad()) > -OperationConstants.kSwerveDeadband))
-//         {
-//             frontLeft.stop();
-//         }
-//         if(((frontRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) && (frontRight.getAbsoluteEncoderRad() > -OperationConstants.kSwerveDeadband))
-//         {
-//             frontRight.stop();
-//         }
-//         if(((backLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) && (backLeft.getAbsoluteEncoderRad() > -OperationConstants.kSwerveDeadband))
-//         {
-//             backLeft.stop();
-//         }
-//         if(((backRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) && (backRight.getAbsoluteEncoderRad() > -OperationConstants.kSwerveDeadband))
-//         {
-//             backRight.stop();
-//         }
-
-//         if(
-//             (((backLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) && (backLeft.getAbsoluteEncoderRad() > -OperationConstants.kSwerveDeadband))
-//             &&(((backLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) && (backLeft.getAbsoluteEncoderRad() > -OperationConstants.kSwerveDeadband))
-//             &&(((backLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) && (backLeft.getAbsoluteEncoderRad() > -OperationConstants.kSwerveDeadband))
-//             &&(((backLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) && (backLeft.getAbsoluteEncoderRad() > -OperationConstants.kSwerveDeadband))
-//            )
-//         {
-//             System.out.println("CALIBRATED");
-//             stopModules();
-//             return true;
-//         }
-
-//         return false;
-//     }
-//     // public boolean modulesarezero()
-//     // {        
-//     //     if(frontLeft.getAbsoluteEncoderRad() < OperationConstants.kSwerveDeadband && frontLeft.getAbsoluteEncoderRad() >= 0)
-//     //     {
-//     //         frontLeft.stop();
-//     //     }
-//     //     if(frontRight.getAbsoluteEncoderRad() < OperationConstants.kSwerveDeadband && frontRight.getAbsoluteEncoderRad() >= 0)
-//     //     {
-//     //         frontRight.stop();
-//     //     }
-//     //     if(backLeft.getAbsoluteEncoderRad() < OperationConstants.kSwerveDeadband && backLeft.getAbsoluteEncoderRad() >= 0)
-//     //     {
-//     //         backLeft.stop();
-//     //     }
-//     //     if(backRight.getAbsoluteEncoderRad() < OperationConstants.kSwerveDeadband && backRight.getAbsoluteEncoderRad() >= 0)
-//     //     {
-//     //         backRight.stop();
-//     //     }
-
-//     //     if(
-//     //         ((backRight.getAbsoluteEncoderRad() < OperationConstants.kSwerveDeadband && backRight.getAbsoluteEncoderRad() >= 0))
-//     //         &&((backRight.getAbsoluteEncoderRad() < OperationConstants.kSwerveDeadband && backRight.getAbsoluteEncoderRad() >= 0))
-//     //         &&((backRight.getAbsoluteEncoderRad() < OperationConstants.kSwerveDeadband && backRight.getAbsoluteEncoderRad() >= 0))
-//     //         &&((backRight.getAbsoluteEncoderRad() < OperationConstants.kSwerveDeadband && backRight.getAbsoluteEncoderRad() >= 0))
-//     //     //    && Math.abs(frontRight.getAbsoluteEncoderRad()) < .2
-//     //     //    &&Math.abs(backLeft.getAbsoluteEncoderRad()) < .2
-//     //     //    &&Math.abs(backRight.getAbsoluteEncoderRad()) < .2
-//     //        )
-        
-//     //     {
-//     //         System.out.println("CALIBRATED");
-//     //         stopModules();
-//     //         return true;
-//     //     }
-
-//     //     return false;
-//     // }
-// }

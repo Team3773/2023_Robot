@@ -33,6 +33,25 @@ public class ElevatorSubsystem extends SubsystemBase{
 
       public void setElevatorSpeed(double speed)
       {
+        elevatorMotor.set(speed);
+      }
+
+      public void stopMotor()
+      {
+        elevatorMotor.set(0);
+      }
+
+      public void zeroEncoder()
+      {
+        elvatorEncoder.setPosition(0);
+      }
+
+      public double getEncoderMeters() {
+        return elvatorEncoder.getPosition();
+      }
+}
+
+        // CODE TO SOP ELEVATOR FROM MAXING OR MINING
         // if(elvatorEncoder.getPosition() >= OperationConstants.kElevatorTopPosition)
         // {
         //   if (speed < 0)
@@ -51,20 +70,3 @@ public class ElevatorSubsystem extends SubsystemBase{
         // {
         //   elevatorMotor.set(speed);
         // }
-        elevatorMotor.set(speed);
-      }
-
-      public void stopMotor()
-      {
-        elevatorMotor.set(0);
-      }
-
-      public void zeroEncoder()
-      {
-        elvatorEncoder.setPosition(0);
-      }
-
-      public double getEncoderMeters() {
-        return elvatorEncoder.getPosition();
-      }
-}

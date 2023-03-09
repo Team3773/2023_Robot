@@ -54,8 +54,6 @@ public class SwerveModule {
         
         absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
 
-        // calibrateWheels(turningMotor, absoluteEncoder);
-
         resetEncoders();
     }
 
@@ -89,39 +87,25 @@ public class SwerveModule {
     {
         PIDController calibratePIDController = new PIDController(.05, 0, 0);
         turningMotor.set(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0));
-        // SmartDashboard.putString("PID number", Double.toString(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0)));
-        // System.out.println("RESETTTT!");
     }
 
     public double getAbsoluteEncoderRad() {
-        // double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
         double angle = absoluteEncoder.getAbsolutePosition();
         angle *= Math.PI / 180;        
         angle -= absoluteEncoderOffsetRad;
         angle *= (absoluteEncoderReversed ? -1.0 : 1.0);
+            
+        double twoPi = 2.0 * Math.PI;
 
-        if(Math.abs(angle)> Math.PI)
+        while (angle > Math.PI) 
         {
-            //need to wrap
-
-            double wrapValue = Math.abs(angle) - Math.PI;
-            if(angle > 0)
-            {
-                SmartDashboard.putNumber("getAbsoluteEncoderRad", -Math.PI + wrapValue);
-                return (-Math.PI + wrapValue);
-            }else
-            {
-                SmartDashboard.putNumber("getAbsoluteEncoderRad", Math.PI - wrapValue);
-                return (Math.PI - wrapValue);
-            }       
-        }  
-        SmartDashboard.putNumber("getAbsoluteEncoderRad", angle);
+            angle -= twoPi;
+        }
+        while (angle < -Math.PI) 
+        {
+            angle += twoPi;
+        }
         return angle;
-    }
-
-    public void resetEncoders() {
-        driveEncoder.setPosition(0);
-        turningEncoder.setPosition(getAbsoluteEncoderRad());
     }
 
     public SwerveModuleState getState() {
@@ -136,8 +120,6 @@ public class SwerveModule {
         state = SwerveModuleState.optimize(state, getState().angle);
         driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
-        // SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state", Double.toString(getAbsoluteEncoderRad()));
-
     }
 
     public void stop() {
@@ -145,11 +127,15 @@ public class SwerveModule {
         turningMotor.set(0);
     }
 
+    public void resetEncoders() {
+        driveEncoder.setPosition(0);
+        turningEncoder.setPosition(getAbsoluteEncoderRad());
+    }
+
     public void zeroAbsEncoder()
     {
-        System.out.println("ZEROOO MODULE");
+        System.out.println("ZERO SWERVE MODULE");
         absoluteEncoder.setPosition(0);
-        // absoluteEncoder.setPosition();
     }
     
 }

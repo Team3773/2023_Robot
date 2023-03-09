@@ -1,11 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.OperationConstants;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -18,7 +14,6 @@ public class ArmExtendSubsystem extends SubsystemBase{
     {
       // RESET IN START POSITION
       armExtendEncoder.setPosition(0);
-      // armExtendMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
 
     }
       // TalonSRX armExtendMotor = new TalonSRX(OperationConstants.armExtendMotorChannel);
@@ -38,6 +33,25 @@ public class ArmExtendSubsystem extends SubsystemBase{
       }
       public void setArmExtendSpeed(double speed)
       {
+        armExtendMotor.set(speed); //OperationConstants.kArmExtendDampner
+      }
+
+      public void stopMotor()
+      {
+        armExtendMotor.set(0);
+      }
+
+      public void zeroEncoder()
+      {
+        armExtendEncoder.setPosition(0);
+      }
+
+      public double getEncoderMeters() {
+        return armExtendEncoder.getPosition();
+      }
+}
+
+        // CODE TO STOP ARM EXTEND FROM MAXING OR MINING
         // if(armExtendEncoder.getPosition() >= OperationConstants.kElevatorTopPosition)
         // {
         //   if (speed < 0)
@@ -56,20 +70,3 @@ public class ArmExtendSubsystem extends SubsystemBase{
         // {
         //   armExtendMotor.set(speed);
         // }
-        armExtendMotor.set(speed); //OperationConstants.kArmExtendDampner
-      }
-
-      public void stopMotor()
-      {
-        armExtendMotor.set(0);
-      }
-
-      public void zeroEncoder()
-      {
-        armExtendEncoder.setPosition(0);
-      }
-
-      public double getEncoderMeters() {
-        return armExtendEncoder.getPosition();
-      }
-}

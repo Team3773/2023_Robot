@@ -26,15 +26,11 @@ import frc.robot.commands.ClawCommand;
 import frc.robot.commands.ArmExtendCommand;
 import frc.robot.commands.ArmRotateCommand;
 import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.commands.ClawCommand;
-import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.ClawPIDCommand;
-import frc.robot.commands.ArmRotatePIDCommand;
 import frc.robot.commands.BalanceOnBeamCommand;
 import frc.robot.commands.CalibrateWheelsCommand;
 import frc.robot.commands.ElevatorPIDCommand;
 import frc.robot.commands.ArmExtendPIDCommand;
-import frc.robot.commands.BalanceOnBeamCommand;
 
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -53,16 +49,7 @@ public class RobotContainer {
     private final ArmExtendSubsystem armExtendSubsystem = new ArmExtendSubsystem();
     private final ArmRotateSubsystem armRotateSubsystem = new ArmRotateSubsystem();
 
-    /*
-     * Xbox Controller A for Swerve. Xbox Controller B for operators. 
-     * Joysticks: swerve.
-     * Arm extend: RightY
-     * Arm rotate: LeftY
-     * Elevator: Y: Up | A: Down
-     * Claw: Left Trigger: Open | Right Trigger: Close 
-     */
-    
-     // OPERATOR
+     // OPERATOR BUTTONS
     private JoystickButton buttonA;
     private JoystickButton buttonB;
     private JoystickButton buttonX;
@@ -70,7 +57,7 @@ public class RobotContainer {
     private JoystickButton buttonLeftTrigger;
     private JoystickButton buttonRightTrigger;
 
-    // DRIVER
+    // DRIVER BUTTONS
     private JoystickButton driverButtonA;
     private JoystickButton driverButtonB;
     private JoystickButton driverButtonX;
@@ -86,18 +73,17 @@ public class RobotContainer {
     public RobotContainer() {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
-                () -> -driverJoytick.getLeftY(), //left y
-                () -> driverJoytick.getLeftX(), //left x
-                () -> driverJoytick.getRightX(), // right x
+                () -> -driverJoytick.getLeftY(),
+                () -> driverJoytick.getLeftX(),
+                () -> driverJoytick.getRightX(),
                 () -> !driverJoytick.getLeftBumper()));
-
-        // USB 1. BLACK XBOX
         
-        // Open claw with right trigger axis. 
-        // Close claw with left trigger axis. 
+        // Open claw with right trigger axis. Close claw with left trigger axis. 
         clawSubsystem.setDefaultCommand(new ClawCommand(clawSubsystem, () -> operatorJoystick.getRightTriggerAxis() * 0.1, () -> operatorJoystick.getLeftTriggerAxis() * 0.1));
+
         // Extend or retract arm with right y-axis.
         armExtendSubsystem.setDefaultCommand(new ArmExtendCommand(armExtendSubsystem, () -> operatorJoystick.getRightY()));
+
         // Rotate arm with left y-axis.
         armRotateSubsystem.setDefaultCommand(new ArmRotateCommand(armRotateSubsystem, () -> operatorJoystick.getLeftY()));
 
@@ -105,6 +91,7 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
+        // OPERATOR BUTTONS
         buttonA = new JoystickButton(operatorJoystick, 1);
         buttonB = new JoystickButton(operatorJoystick, 2);
         buttonX = new JoystickButton(operatorJoystick, 3);
@@ -112,6 +99,7 @@ public class RobotContainer {
         buttonLeftTrigger = new JoystickButton(operatorJoystick, 5);
         buttonRightTrigger = new JoystickButton(operatorJoystick, 6);
 
+        // DRIVER BUTTONS
         driverButtonA = new JoystickButton(driverJoytick, 1);
         driverButtonB = new JoystickButton(driverJoytick, 2);
         driverButtonX = new JoystickButton(driverJoytick, 3);
@@ -119,12 +107,11 @@ public class RobotContainer {
         driverButtonLeftTrigger = new JoystickButton(driverJoytick, 5);
         driverButtonRightTrigger = new JoystickButton(driverJoytick, 6);
 
-        // MANUALLY TUNE ELEVATOR UP AND DOWN
+        // MANUALLY ELEVATE
         buttonY.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(.15), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
         buttonA.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(-.15), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
 
         // PLACE TOP
-        // buttonB.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -20));
         buttonB.onTrue(new SequentialCommandGroup(
                 new ElevatorPIDCommand(elevatorSubsystem, 0),
                 new ArmExtendPIDCommand(armExtendSubsystem, 51),
@@ -140,12 +127,12 @@ public class RobotContainer {
         // PICK UP FROM FLOOR
         buttonRightTrigger.onTrue(new ElevatorPIDCommand(elevatorSubsystem, 0));
 
-        /*===================DRIVER==============================================*/
+        /*========================DRIVER======================================*/
 
         // ZERO GYRO
         driverButtonA.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
-        // ZERO ENCODERS
+        // ZERO ENCODERS FOR OPERATIONS
         driverButtonB.onTrue(new SequentialCommandGroup(
                 new InstantCommand(() -> elevatorSubsystem.zeroEncoder()),
                 new InstantCommand(() -> armExtendSubsystem.zeroEncoder()),
@@ -155,8 +142,6 @@ public class RobotContainer {
         
         // CALIBRATE WHEELS
         driverButtonX.onTrue(new CalibrateWheelsCommand(swerveSubsystem));
-        // driverButtonX.onTrue(new InstantCommand(() -> swerveSubsystem.zeroFLEncoder()));
-
         
         // BALANCE IN TELEOP
         driverButtonRightTrigger.onTrue(new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees));

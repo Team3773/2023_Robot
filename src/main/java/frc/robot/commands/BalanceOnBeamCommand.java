@@ -55,7 +55,7 @@ public class BalanceOnBeamCommand extends CommandBase {
       balanceCounter = 0;
     }
     if(balanceCounter >= 20){
-      System.out.println("BEAMMMMMMM");
+      System.out.println("BALANCED");
       return true;
     }
     return false;

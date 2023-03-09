@@ -30,19 +30,7 @@ public class ClawSubsystem extends SubsystemBase{
       }
       public void setClawSpeed(double speed)
       {
-        // if(getEncoderMeters() >= OperationConstants.kClawStopGrabPoint)
-        // {
-        //   if(speed < 0)
-        //   {
-        //     clawMotor.set(speed);
-        //   }
-        // }
-        // else
-        // {
-        //   clawMotor.set(speed);
-        // }
         clawMotor.set(speed);
-
       }
 
       public void zeroEncoder()
@@ -59,3 +47,15 @@ public class ClawSubsystem extends SubsystemBase{
       return clawEncoder.getPosition();
     }
 }
+        // CODE TO STOP CLAW MOTOR FROM MAXING OR MINING
+        // if(getEncoderMeters() >= OperationConstants.kClawStopGrabPoint)
+        // {
+        //   if(speed < 0)
+        //   {
+        //     clawMotor.set(speed);
+        //   }
+        // }
+        // else
+        // {
+        //   clawMotor.set(speed);
+        // }
