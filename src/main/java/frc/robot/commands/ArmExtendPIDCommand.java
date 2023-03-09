@@ -3,13 +3,18 @@ package frc.robot.commands;
 import frc.robot.Constants.OperationConstants;
 import frc.robot.subsystems.ArmExtendSubsystem;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class ArmExtendPIDCommand extends CommandBase{
     private final ArmExtendSubsystem armExtendSubsystem;
     private final PIDController pidController;
     private double setpoint;
     private int extendCounter = 0;
+    private double startTime;
+    private double endTime;
+
 
     public ArmExtendPIDCommand(ArmExtendSubsystem subsystem, double setpoint)
     {
@@ -30,6 +35,7 @@ public class ArmExtendPIDCommand extends CommandBase{
     public void execute() {
         double speed = pidController.calculate(armExtendSubsystem.getEncoderMeters());
         armExtendSubsystem.setArmExtendSpeed(speed);
+        startTime = Timer.getFPGATimestamp();
     }
 
     // Called once the command ends or is interrupted.
@@ -41,7 +47,7 @@ public class ArmExtendPIDCommand extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if((armExtendSubsystem.getEncoderMeters() < (setpoint + OperationConstants.setpointDeadband)) || (armExtendSubsystem.getEncoderMeters() > (setpoint - OperationConstants.setpointDeadband))){
+        if((armExtendSubsystem.getEncoderMeters() < (setpoint + OperationConstants.setpointDeadband)) && (armExtendSubsystem.getEncoderMeters() > (setpoint - OperationConstants.setpointDeadband))){
             extendCounter += 1;
           }else{
             extendCounter = 0;

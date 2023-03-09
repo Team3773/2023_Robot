@@ -43,7 +43,7 @@ public class ClawPIDCommand extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if((clawSubsystem.getEncoderMeters() < (setpoint + OperationConstants.setpointDeadband)) || (clawSubsystem.getEncoderMeters() > (setpoint - OperationConstants.setpointDeadband))){
+        if((clawSubsystem.getEncoderMeters() < (setpoint + OperationConstants.setpointDeadband)) && (clawSubsystem.getEncoderMeters() > (setpoint - OperationConstants.setpointDeadband))){
             clawCounter += 1;
           }else{
             clawCounter = 0;

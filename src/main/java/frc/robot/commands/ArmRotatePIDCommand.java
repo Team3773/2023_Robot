@@ -15,7 +15,7 @@ public class ArmRotatePIDCommand extends CommandBase{
     {
         this.setpoint = setpoint;
         armRotateSub = subsystem;
-        this.pidController = new PIDController(0.15, 0, 0); 
+        this.pidController = new PIDController(0.5, 0, 0); 
         pidController.setSetpoint(setpoint);
         
         addRequirements(armRotateSub);
@@ -41,7 +41,7 @@ public class ArmRotatePIDCommand extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if((armRotateSub.getEncoderMeters() < (setpoint + OperationConstants.setpointDeadband)) || (armRotateSub.getEncoderMeters() > (setpoint - OperationConstants.setpointDeadband))){
+        if((armRotateSub.getEncoderMeters() < (setpoint + OperationConstants.setpointDeadband)) && (armRotateSub.getEncoderMeters() > (setpoint - OperationConstants.setpointDeadband))){
             armRotateCounter += 1;
           }else{
             armRotateCounter = 0;

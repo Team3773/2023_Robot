@@ -19,7 +19,7 @@ public class BalanceOnBeamCommand extends CommandBase {
   /** Creates a new BalanceOnBeamCommand. */
   public BalanceOnBeamCommand(SwerveSubsystem swerveSub, double setPoint) {
     this.swerveSub = swerveSub;
-    this.pidController = new PIDController(0.15, 0, 0); 
+    this.pidController = new PIDController(0.2, 0, 0); 
 
     pidController.setSetpoint(setPoint);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -35,7 +35,7 @@ public class BalanceOnBeamCommand extends CommandBase {
   public void execute() {
     double speed = pidController.calculate(swerveSub.getPitch());
 
-    ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, speed, 0);
+    ChassisSpeeds chassisSpeeds = new ChassisSpeeds(speed, 0, 0);
     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     swerveSub.setModuleStates(moduleStates);
   }
@@ -48,12 +48,14 @@ public class BalanceOnBeamCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Math.abs(swerveSub.getPitch()) < 3){
+
+    if(Math.abs(swerveSub.getPitch()) < 0.2){
       balanceCounter += 1;
     }else{
       balanceCounter = 0;
     }
     if(balanceCounter >= 20){
+      System.out.println("BEAMMMMMMM");
       return true;
     }
     return false;

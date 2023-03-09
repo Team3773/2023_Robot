@@ -43,7 +43,7 @@ public class ElevatorPIDCommand extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if((elevatorSub.getEncoderMeters() < (setpoint + OperationConstants.setpointDeadband)) || (elevatorSub.getEncoderMeters() > (setpoint - OperationConstants.setpointDeadband))){
+        if((elevatorSub.getEncoderMeters() < (setpoint + OperationConstants.setpointDeadband)) && (elevatorSub.getEncoderMeters() > (setpoint - OperationConstants.setpointDeadband))){
             elevatorCounter += 1;
           }else{
             elevatorCounter = 0;

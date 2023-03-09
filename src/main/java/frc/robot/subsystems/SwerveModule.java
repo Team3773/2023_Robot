@@ -87,8 +87,8 @@ public class SwerveModule {
 
     public void resetModuleStates()
     {
-        PIDController calibratePIDController = new PIDController(.035, 0, 0);
-        turningMotor.set(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0.15));
+        PIDController calibratePIDController = new PIDController(.05, 0, 0);
+        turningMotor.set(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0));
         // SmartDashboard.putString("PID number", Double.toString(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0)));
         // System.out.println("RESETTTT!");
     }
@@ -143,6 +143,13 @@ public class SwerveModule {
     public void stop() {
         driveMotor.set(0);
         turningMotor.set(0);
+    }
+
+    public void zeroAbsEncoder()
+    {
+        System.out.println("ZEROOO MODULE");
+        absoluteEncoder.setPosition(0);
+        // absoluteEncoder.setPosition();
     }
     
 }

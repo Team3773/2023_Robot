@@ -36,6 +36,11 @@ public class CalibrateWheelsCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return swerveSub.modulesarezero();
+    if(swerveSub.modulesarezero())
+    {
+      swerveSub.zeroAbsEncodersSwerveSub();
+      return true;
+    }
+    return false;
   }
 }

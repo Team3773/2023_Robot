@@ -109,15 +109,15 @@ public class RobotContainer {
         buttonB = new JoystickButton(operatorJoystick, 2);
         buttonX = new JoystickButton(operatorJoystick, 3);
         buttonY = new JoystickButton(operatorJoystick, 4);
-        buttonLeftTrigger = new JoystickButton(operatorJoystick, 6);
-        buttonRightTrigger = new JoystickButton(operatorJoystick, 5);
+        buttonLeftTrigger = new JoystickButton(operatorJoystick, 5);
+        buttonRightTrigger = new JoystickButton(operatorJoystick, 6);
 
         driverButtonA = new JoystickButton(driverJoytick, 1);
         driverButtonB = new JoystickButton(driverJoytick, 2);
         driverButtonX = new JoystickButton(driverJoytick, 3);
         driverButtonY = new JoystickButton(driverJoytick, 4);
-        driverButtonLeftTrigger = new JoystickButton(driverJoytick, 6);
-        driverButtonRightTrigger = new JoystickButton(operatorJoystick, 5);
+        driverButtonLeftTrigger = new JoystickButton(driverJoytick, 5);
+        driverButtonRightTrigger = new JoystickButton(driverJoytick, 6);
 
         // MANUALLY TUNE ELEVATOR UP AND DOWN
         buttonY.whileTrue(new StartEndCommand(() -> elevatorSubsystem.setElevatorSpeed(.15), () -> elevatorSubsystem.stopMotor(), elevatorSubsystem));
@@ -126,16 +126,19 @@ public class RobotContainer {
         // PLACE TOP
         // buttonB.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -20));
         buttonB.onTrue(new SequentialCommandGroup(
-                new ElevatorPIDCommand(elevatorSubsystem, -20),
-                new ArmExtendPIDCommand(armExtendSubsystem, 20),
-                new ClawPIDCommand(clawSubsystem, 20)
+                new ElevatorPIDCommand(elevatorSubsystem, 0),
+                new ArmExtendPIDCommand(armExtendSubsystem, 51),
+                new ClawPIDCommand(clawSubsystem, -50)
         ));
 
         // PLACE BOTTOM
-        buttonX.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -35));
+        buttonX.onTrue(new SequentialCommandGroup(
+                new ElevatorPIDCommand(elevatorSubsystem, 0),
+                new ArmExtendPIDCommand(armExtendSubsystem, 116)
+                ));
         
         // PICK UP FROM FLOOR
-        buttonRightTrigger.onTrue(new ElevatorPIDCommand(elevatorSubsystem, -100));
+        buttonRightTrigger.onTrue(new ElevatorPIDCommand(elevatorSubsystem, 0));
 
         /*===================DRIVER==============================================*/
 
@@ -152,7 +155,9 @@ public class RobotContainer {
         
         // CALIBRATE WHEELS
         driverButtonX.onTrue(new CalibrateWheelsCommand(swerveSubsystem));
+        // driverButtonX.onTrue(new InstantCommand(() -> swerveSubsystem.zeroFLEncoder()));
 
+        
         // BALANCE IN TELEOP
         driverButtonRightTrigger.onTrue(new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees));
     }
@@ -228,12 +233,6 @@ public class RobotContainer {
                  * Places cube.
                  * Drives back onto charge station.
                  */
-
-                 // Extend Arm
-                // new ArmExtendPIDCommand(armExtendSubsystem, OperationConstants.kArmExtendSetpoint),
-                // // Open Claw
-                // new ClawPIDCommand(clawSubsystem, OperationConstants.kClawSetpoint),
-                // // Initialize swerve
                 new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
                 // Follow swerve trajectory defined in 2
                 swerveControllerCommand,
@@ -241,7 +240,7 @@ public class RobotContainer {
                 // new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees),
                 // // Stop swerve
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
-        
+                
         SequentialCommandGroup secondSequentialCommandGroup = new SequentialCommandGroup(
                 /**
                  * Path description: 
