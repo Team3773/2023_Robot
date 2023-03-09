@@ -1,21 +1,31 @@
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
 import java.util.List;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
@@ -71,6 +81,11 @@ public class RobotContainer {
     SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     public RobotContainer() {
+        m_chooser.setDefaultOption("Simple Auto", loadPathPlannerTrajectory("C:\Users\13137\New folder (2)\2023_Robot\src\main\deploy\deploy\pathplanner\generatedJSON\Straight.wpilib.json",
+         true));
+
+        Shuffleboard.getTab("Autonomous ").add(m_chooser);
+
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
                 () -> -driverJoytick.getLeftY(),
@@ -88,6 +103,32 @@ public class RobotContainer {
         armRotateSubsystem.setDefaultCommand(new ArmRotateCommand(armRotateSubsystem, () -> operatorJoystick.getLeftY()));
 
         configureButtonBindings();
+    }
+
+    public Command loadPathPlannerTrajectory(String filename, boolean resetOdometry)
+    {
+        Trajectory trajectory;
+        try
+        {
+          Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(filename);
+          trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        }catch(IOException exception)
+        {
+           DriverStation.reportError("Unable to open trajectory", exception.getStackTrace());
+           System.out.println("Unable to read from file " + filename);
+           return new InstantCommand();
+        }
+
+        // RamseteCommand ramseteCommand = new RamseteCommand(trajectory, swerveSubsystem.getPose(), new RamseteController(1.0, 1.0), new SimpleMotorFeedforward(1.0, 1.0), DriveConstants.kDriveKinematics, )
+
+        if(resetOdometry){
+                return new SequentialCommandGroup(
+                        new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose()), ramseteCommand));
+        }
+        else{
+                return ramseteCommand;
+        }
+
     }
 
     private void configureButtonBindings() {
