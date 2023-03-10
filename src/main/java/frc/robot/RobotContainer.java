@@ -191,10 +191,10 @@ public class RobotContainer {
                 new Pose2d(1.96, 2.71, new Rotation2d(0)),
                 List.of(
                         // Other points
-                        new Translation2d(2.10, 2.71),
-                        new Translation2d(2.80, 2.71)),
+                        new Translation2d(2.90, 2.71),
+                        new Translation2d(4.90, 2.71)),
                 //Final points
-                new Pose2d(3.90, 2.71, Rotation2d.fromDegrees(0)), // CHANGED FROM 180 deg
+                new Pose2d(6.40, 2.71, Rotation2d.fromDegrees(180)), // CHANGED FROM 180 deg
                 trajectoryConfig);
         
         PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
@@ -241,9 +241,9 @@ public class RobotContainer {
                 List.of(
                         // Other points
                         new Translation2d(13.1, 2.71),
-                        new Translation2d(13.8, 2.71)),
+                        new Translation2d(1.8, 2.71)),
                 //Final points
-                new Pose2d(12.620, 2.71, Rotation2d.fromDegrees(0)), // CHANGED FROM 180 deg
+                new Pose2d(10.620, 2.71, Rotation2d.fromDegrees(0)), // CHANGED FROM 180 deg
                 trajectoryConfig);
 
         // 3. Define PID controllers for tracking trajectory
@@ -285,6 +285,7 @@ public class RobotContainer {
     }
     
     public Command getAutonomousCommand() {
+        // return redAutoCommand();
         return m_chooser.getSelected();
     }
 }

@@ -1,7 +1,12 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.OperationConstants;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -13,17 +18,19 @@ public class ArmExtendSubsystem extends SubsystemBase{
     public ArmExtendSubsystem() 
     {
       // RESET IN START POSITION
-      armExtendEncoder.setPosition(0);
-
+      armExtendEncoder.reset();
+      armExtendMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
     }
-      // TalonSRX armExtendMotor = new TalonSRX(OperationConstants.armExtendMotorChannel);
-      CANSparkMax armExtendMotor = new CANSparkMax(OperationConstants.armExtendMotorChannel, MotorType.kBrushless);
-      RelativeEncoder armExtendEncoder = armExtendMotor.getEncoder();
+      TalonSRX armExtendMotor = new TalonSRX(OperationConstants.armExtendMotorChannel);
+      // CANSparkMax armExtendMotor = new CANSparkMax(OperationConstants.armExtendMotorChannel, MotorType.kBrushless);
+      Encoder armExtendEncoder = new Encoder(OperationConstants.karmRotateEncoderA, OperationConstants.karmRotateEncoderB);
 
       @Override
       public void periodic() {
-        armExtendEncoder.setPositionConversionFactor(OperationConstants.kElevatorEncoderRot2Meter);
-        SmartDashboard.putNumber("Arm Extend Encoder: ", getEncoderMeters());
+        // armExtendEncoder.setPositionConversionFactor(OperationConstants.kElevatorEncoderRot2Meter);        SmartDashboard.putNumber("Arm Rotate Encoder", armRotateEncoder.getDistance());
+        SmartDashboard.putNumber("Arm Rotate Encoder", armExtendEncoder.getDistance());
+
+        // SmartDashboard.putNumber("Arm Extend Encoder: ", getEncoderMeters());
         // This method will be called once per scheduler run
       }
     
@@ -33,21 +40,21 @@ public class ArmExtendSubsystem extends SubsystemBase{
       }
       public void setArmExtendSpeed(double speed)
       {
-        armExtendMotor.set(speed); //OperationConstants.kArmExtendDampner
+        armExtendMotor.set(ControlMode.PercentOutput, speed * OperationConstants.kArmRotateDampner);
       }
 
       public void stopMotor()
       {
-        armExtendMotor.set(0);
+        armExtendMotor.set(ControlMode.PercentOutput,0);
       }
 
       public void zeroEncoder()
       {
-        armExtendEncoder.setPosition(0);
+        armExtendEncoder.reset();
       }
 
       public double getEncoderMeters() {
-        return armExtendEncoder.getPosition();
+        return armExtendEncoder.getDistance();
       }
 }
 

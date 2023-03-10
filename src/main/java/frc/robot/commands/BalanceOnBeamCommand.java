@@ -19,7 +19,7 @@ public class BalanceOnBeamCommand extends CommandBase {
   /** Creates a new BalanceOnBeamCommand. */
   public BalanceOnBeamCommand(SwerveSubsystem swerveSub, double setPoint) {
     this.swerveSub = swerveSub;
-    this.pidController = new PIDController(0.2, 0, 0); 
+    this.pidController = new PIDController(0.1, 0, 0); 
 
     pidController.setSetpoint(setPoint);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -49,9 +49,12 @@ public class BalanceOnBeamCommand extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    if(Math.abs(swerveSub.getPitch()) < 0.2){
+    if(Math.abs(swerveSub.getPitch()) < 0.3)
+    {
       balanceCounter += 1;
-    }else{
+    }
+    else
+    {
       balanceCounter = 0;
     }
     if(balanceCounter >= 20){
