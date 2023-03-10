@@ -84,7 +84,7 @@ public class RobotContainer {
                 () -> -driverJoytick.getLeftY(), //left y
                 () -> driverJoytick.getLeftX(), //left x
                 () -> driverJoytick.getRightX(), // right x
-                () -> !driverJoytick.getLeftBumper()));
+                () -> !driverJoytick.getLeftBumper())); //Try hitting left bumper
 
         // USB 1. BLACK XBOX
         

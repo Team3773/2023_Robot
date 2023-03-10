@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.SensorTimeBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
@@ -35,6 +37,18 @@ public class SwerveModule {
         this.absoluteEncoderReversed = absoluteEncoderReversed;
         absoluteEncoder = new CANCoder(absoluteEncoderId);
 
+        CANCoderConfiguration config = new CANCoderConfiguration();
+
+        // set units of the CANCoder to radians, with velocity being radians per second
+
+        config.sensorCoefficient = 2 * Math.PI / 4096.0;
+
+        config.unitString = "rad";
+
+        config.sensorTimeBase = SensorTimeBase.PerSecond;
+
+        absoluteEncoder.configAllSettings(config);
+
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
 
@@ -52,9 +66,7 @@ public class SwerveModule {
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI); 
         
-        absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
-
-        // calibrateWheels(turningMotor, absoluteEncoder);
+        absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180); //Try commenting out
 
         resetEncoders();
     }
@@ -89,33 +101,10 @@ public class SwerveModule {
     {
         PIDController calibratePIDController = new PIDController(.035, 0, 0);
         turningMotor.set(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0.15));
-        // SmartDashboard.putString("PID number", Double.toString(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0)));
-        // System.out.println("RESETTTT!");
     }
 
     public double getAbsoluteEncoderRad() {
-        // double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
-        double angle = absoluteEncoder.getAbsolutePosition();
-        angle *= Math.PI / 180;        
-        angle -= absoluteEncoderOffsetRad;
-        angle *= (absoluteEncoderReversed ? -1.0 : 1.0);
-
-        if(Math.abs(angle)> Math.PI)
-        {
-            //need to wrap
-
-            double wrapValue = Math.abs(angle) - Math.PI;
-            if(angle > 0)
-            {
-                SmartDashboard.putNumber("getAbsoluteEncoderRad", -Math.PI + wrapValue);
-                return (-Math.PI + wrapValue);
-            }else
-            {
-                SmartDashboard.putNumber("getAbsoluteEncoderRad", Math.PI - wrapValue);
-                return (Math.PI - wrapValue);
-            }       
-        }  
-        SmartDashboard.putNumber("getAbsoluteEncoderRad", angle);
+        double angle = absoluteEncoder.getAbsolutePosition() - absoluteEncoderOffsetRad;        
         return angle;
     }
 
