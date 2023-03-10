@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.SensorTimeBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
@@ -35,6 +37,18 @@ public class SwerveModule {
         this.absoluteEncoderReversed = absoluteEncoderReversed;
         absoluteEncoder = new CANCoder(absoluteEncoderId);
 
+        CANCoderConfiguration config = new CANCoderConfiguration();
+
+        // set units of the CANCoder to radians, with velocity being radians per second
+
+        config.sensorCoefficient = 2 * Math.PI / 4096.0;
+
+        config.unitString = "rad";
+
+        config.sensorTimeBase = SensorTimeBase.PerSecond;
+
+        absoluteEncoder.configAllSettings(config);
+
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
 
@@ -52,7 +66,7 @@ public class SwerveModule {
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI); 
         
-        absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
+        absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180); //Try commenting out
 
         resetEncoders();
     }
@@ -85,27 +99,18 @@ public class SwerveModule {
 
     public void resetModuleStates()
     {
-        PIDController calibratePIDController = new PIDController(.05, 0, 0);
-        turningMotor.set(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0));
+        PIDController calibratePIDController = new PIDController(.035, 0, 0);
+        turningMotor.set(calibratePIDController.calculate(getAbsoluteEncoderRad(), 0.15));
     }
 
     public double getAbsoluteEncoderRad() {
-        double angle = absoluteEncoder.getAbsolutePosition();
-        angle *= Math.PI / 180;        
-        angle -= absoluteEncoderOffsetRad;
-        angle *= (absoluteEncoderReversed ? -1.0 : 1.0);
-            
-        double twoPi = 2.0 * Math.PI;
-
-        while (angle > Math.PI) 
-        {
-            angle -= twoPi;
-        }
-        while (angle < -Math.PI) 
-        {
-            angle += twoPi;
-        }
+        double angle = absoluteEncoder.getAbsolutePosition() - absoluteEncoderOffsetRad;        
         return angle;
+    }
+
+    public void resetEncoders() {
+        driveEncoder.setPosition(0);
+        turningEncoder.setPosition(getAbsoluteEncoderRad());
     }
 
     public SwerveModuleState getState() {
@@ -120,22 +125,12 @@ public class SwerveModule {
         state = SwerveModuleState.optimize(state, getState().angle);
         driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+        // SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state", Double.toString(getAbsoluteEncoderRad()));
+
     }
 
     public void stop() {
         driveMotor.set(0);
         turningMotor.set(0);
     }
-
-    public void resetEncoders() {
-        driveEncoder.setPosition(0);
-        turningEncoder.setPosition(getAbsoluteEncoderRad());
-    }
-
-    public void zeroAbsEncoder()
-    {
-        System.out.println("ZERO SWERVE MODULE");
-        absoluteEncoder.setPosition(0);
-    }
-    
 }
