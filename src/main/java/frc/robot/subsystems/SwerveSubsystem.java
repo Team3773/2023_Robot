@@ -75,6 +75,14 @@ public class SwerveSubsystem extends SubsystemBase {
         }).start();
     }
 
+    public void syncEncoders()
+    {
+        frontLeft.resetEncoders();
+        frontRight.resetEncoders();
+        backLeft.resetEncoders();
+        backRight.resetEncoders();
+    }
+
     public void zeroHeading() {
         gyro.reset();
     }

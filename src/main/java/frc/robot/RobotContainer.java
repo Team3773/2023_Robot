@@ -39,6 +39,7 @@ import frc.robot.subsystems.SwerveModule;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.ArmExtendSubsystem;
 import frc.robot.subsystems.ArmRotateSubsystem;
+import frc.robot.subsystems.SwerveModule;
 
 
 
@@ -49,6 +50,7 @@ public class RobotContainer {
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
     private final ArmExtendSubsystem armExtendSubsystem = new ArmExtendSubsystem();
     private final ArmRotateSubsystem armRotateSubsystem = new ArmRotateSubsystem();
+//     private final SwerveModule swerveModule = new SwerveModule();
 
      // OPERATOR BUTTONS
     private JoystickButton buttonA;
@@ -169,6 +171,8 @@ public class RobotContainer {
         
         // CALIBRATE WHEELS
         driverButtonX.onTrue(new CalibrateWheelsCommand(swerveSubsystem));
+
+        driverButtonY.onTrue(new InstantCommand(() -> swerveSubsystem.syncEncoders()));
         
         // BALANCE IN TELEOP
         driverButtonRightTrigger.onTrue(new BalanceOnBeamCommand(swerveSubsystem, OperationConstants.kBeam_Balance_Goal_Degrees));

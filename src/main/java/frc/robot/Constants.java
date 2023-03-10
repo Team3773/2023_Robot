@@ -46,7 +46,7 @@ public final class Constants {
         public static final boolean kBackRightTurningEncoderReversed = false;
 
         public static final boolean kFrontLeftDriveEncoderReversed = false; //true
-        public static final boolean kBackLeftDriveEncoderReversed = false;
+        public static final boolean kBackLeftDriveEncoderReversed = false; 
         public static final boolean kFrontRightDriveEncoderReversed = true; //true
         public static final boolean kBackRightDriveEncoderReversed = false;
 
@@ -60,10 +60,15 @@ public final class Constants {
         public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0.673; // 9 // -2.54 *
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 2.743; // 11
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 4.211; // 10
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.850; // 12 *
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 3.909; // 9 // -2.54 
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 2.819;//2.888; // 11* // 6.027
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 4.235; // 10* 
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 4.007; //3.968; // 12 //.827
+
+        // public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0.673; // 9 // -2.54 *
+        // public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 2.743; // 11
+        // public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 4.211; // 10
+        // public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.850; // 12 *
 
         // public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -2.54; // 9 // -2.54
         // public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 2.84; // 11
