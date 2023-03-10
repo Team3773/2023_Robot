@@ -63,7 +63,7 @@ public class RobotContainer {
     private JoystickButton driverButtonB;
     private JoystickButton driverButtonX;
     private JoystickButton driverButtonY;
-    private JoystickButton driverButtonLeftTrigger;
+//     private JoystickButton driverButtonLeftTrigger;
     private JoystickButton driverButtonRightTrigger;
 
     private final XboxController driverJoytick = new XboxController(OIConstants.kDriverControllerPort);
@@ -80,24 +80,30 @@ public class RobotContainer {
         m_chooser.addOption("Test Command", testCommand());
 
 
-        if(Math.abs(operatorJoystick.getLeftY()) > .1)
-        {
-                operateLeftYSpeed = operatorJoystick.getLeftY();
-        }
+        // if(Math.abs(operatorJoystick.getLeftY()) > .1)
+        // {
+        //         operateLeftYSpeed = operatorJoystick.getLeftY();
+        // }
 
-        if(Math.abs(operatorJoystick.getRightY()) > .1)
-        {
-                operateRightYSpeed = operatorJoystick.getRightY();
-        }
+        // if(Math.abs(operatorJoystick.getRightY()) > .1)
+        // {
+        //         operateRightYSpeed = operatorJoystick.getRightY();
+        // }
 
         Shuffleboard.getTab("Autonomous ").add(m_chooser);
 
+        /*
+         * LEFT Y: X-AXIS
+         * LEFT X: Y-AXIS
+         * RIGHT X = ROTATION
+         * LEFT BUMPER = FIELD ORIENTED TRUE OR  NOT
+         */
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
                 () -> -driverJoytick.getLeftY(),
                 () -> driverJoytick.getLeftX(),
                 () -> driverJoytick.getRightX(),
-                () -> !driverJoytick.getLeftBumper()));
+                () -> !driverJoytick.getLeftBumper())); // Try changing to true or false
         
         // Open claw with right trigger axis. Close claw with left trigger axis. 
         clawSubsystem.setDefaultCommand(new ClawCommand(clawSubsystem, () -> operatorJoystick.getRightTriggerAxis() * 0.1, () -> operatorJoystick.getLeftTriggerAxis() * 0.1));
@@ -125,7 +131,7 @@ public class RobotContainer {
         driverButtonB = new JoystickButton(driverJoytick, 2);
         driverButtonX = new JoystickButton(driverJoytick, 3);
         driverButtonY = new JoystickButton(driverJoytick, 4);
-        driverButtonLeftTrigger = new JoystickButton(driverJoytick, 5);
+        // driverButtonLeftTrigger = new JoystickButton(driverJoytick, 5);
         driverButtonRightTrigger = new JoystickButton(driverJoytick, 6);
 
         // MANUALLY ELEVATE

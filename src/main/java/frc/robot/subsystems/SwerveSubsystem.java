@@ -138,41 +138,32 @@ public class SwerveSubsystem extends SubsystemBase {
         backRight.resetModuleStates();
     }
 
-    public void zeroAbsEncodersSwerveSub()
-    {
-        System.out.println("ZERO SWERVE SUB");
-        frontLeft.zeroAbsEncoder();
-        frontRight.zeroAbsEncoder();
-        backLeft.zeroAbsEncoder();
-        backRight.zeroAbsEncoder();
-    }
-
     public boolean modulesarezero()
     {   
         System.out.println("MODULES ARE ZERO RUNNING");
 
-        if((Math.abs(frontLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(frontLeft.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
+        if(Math.abs(frontLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband)
         {
             frontLeft.stop();
         }
-        if((Math.abs(frontRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(frontRight.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
+        if(Math.abs(frontRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband)
         {
             frontRight.stop();
         }
-        if((Math.abs(backLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(backLeft.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
+        if(Math.abs(backLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband)
         {
             backLeft.stop();
         }
-        if((Math.abs(backRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(backRight.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
+        if(Math.abs(backRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband)
         {
             backRight.stop();
         }
 
         if(
-            ((Math.abs(frontLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(frontLeft.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
-            &&((Math.abs(frontRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(frontRight.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
-            &&((Math.abs(backLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(backLeft.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband))
-            &&((Math.abs(backRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband) || (Math.abs(Math.abs(backRight.getAbsoluteEncoderRad()) - Math.PI) < OperationConstants.kSwerveDeadband)))           
+            (Math.abs(frontLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband)
+            &&(Math.abs(backRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband)
+            &&(Math.abs(backLeft.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband)
+            &&(Math.abs(backRight.getAbsoluteEncoderRad()) < OperationConstants.kSwerveDeadband))           
         {
             System.out.println("ZEROED");
             stopModules();

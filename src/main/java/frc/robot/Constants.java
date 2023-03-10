@@ -60,10 +60,10 @@ public final class Constants {
         public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0; // 9 // -2.54
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0; // 11
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0; // 10
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0; // 12
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0.673; // 9 // -2.54 *
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 2.743; // 11
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 4.211; // 10
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.850; // 12 *
 
         // public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -2.54; // 9 // -2.54
         // public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 2.84; // 11

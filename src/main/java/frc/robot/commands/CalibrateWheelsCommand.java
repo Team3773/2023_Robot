@@ -37,7 +37,6 @@ public class CalibrateWheelsCommand extends CommandBase {
   public boolean isFinished() {
     if(swerveSub.modulesarezero())
     {
-      swerveSub.zeroAbsEncodersSwerveSub();
       return true;
     }
     return false;

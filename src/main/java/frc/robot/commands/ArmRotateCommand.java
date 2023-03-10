@@ -24,7 +24,8 @@ public class ArmRotateCommand extends CommandBase{
     public void execute() {
         double rotateSpeed = rotateSpeedFunction.get();
 
-        if(Math.abs(rotateSpeed) < 0.05)
+        // DEADBAND
+        if(Math.abs(rotateSpeed) < 0.12)
         {
             rotateSpeed = 0;
         }

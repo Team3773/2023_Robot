@@ -25,7 +25,9 @@ public class ArmExtendCommand extends CommandBase{
     @Override
     public void execute() {
         double extendSpeed = extendSpeedFunction.get();
-        if(Math.abs(extendSpeed) < 0.05)
+
+        // DEADBAND
+        if(Math.abs(extendSpeed) < 0.12)
         {
             extendSpeed = 0;
         }

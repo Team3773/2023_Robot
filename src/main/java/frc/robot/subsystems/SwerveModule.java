@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.sensors.SensorTimeBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -37,17 +38,21 @@ public class SwerveModule {
         this.absoluteEncoderReversed = absoluteEncoderReversed;
         absoluteEncoder = new CANCoder(absoluteEncoderId);
 
-        CANCoderConfiguration config = new CANCoderConfiguration();
+        // CANCoderConfiguration config = new CANCoderConfiguration();
 
-        // set units of the CANCoder to radians, with velocity being radians per second
+        // // set units of the CANCoder to radians, with velocity being radians per second
 
-        config.sensorCoefficient = 2 * Math.PI / 4096.0;
+        // config.sensorCoefficient = 2 * Math.PI / 4096.0;
 
-        config.unitString = "rad";
+        // config.unitString = "rad";
 
-        config.sensorTimeBase = SensorTimeBase.PerSecond;
+        // config.sensorTimeBase = SensorTimeBase.PerSecond;
 
-        absoluteEncoder.configAllSettings(config);
+        // absoluteEncoder.configAllSettings(config);
+
+        absoluteEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+        absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //Try commenting out or changing to 0 360
+        absoluteEncoder.configMagnetOffset(absoluteEncoderOffset);
 
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
@@ -66,7 +71,7 @@ public class SwerveModule {
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI); 
         
-        absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180); //Try commenting out
+        absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //Try commenting out or changing to 0 360
 
         resetEncoders();
     }
