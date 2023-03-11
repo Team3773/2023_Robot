@@ -52,7 +52,7 @@ public class SwerveModule {
 
         absoluteEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
         absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //Try commenting out or changing to 0 360
-        absoluteEncoder.configMagnetOffset(absoluteEncoderOffset);
+        //absoluteEncoder.configMagnetOffset(absoluteEncoderOffset);
 
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
@@ -71,7 +71,7 @@ public class SwerveModule {
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI); 
         
-        absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //Try commenting out or changing to 0 360
+       // absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //Try commenting out or changing to 0 360
 
         resetEncoders();
     }

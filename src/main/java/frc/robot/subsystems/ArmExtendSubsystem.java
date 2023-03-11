@@ -23,7 +23,7 @@ public class ArmExtendSubsystem extends SubsystemBase{
     }
       TalonSRX armExtendMotor = new TalonSRX(OperationConstants.armExtendMotorChannel);
       // CANSparkMax armExtendMotor = new CANSparkMax(OperationConstants.armExtendMotorChannel, MotorType.kBrushless);
-      Encoder armExtendEncoder = new Encoder(OperationConstants.karmRotateEncoderA, OperationConstants.karmRotateEncoderB);
+      Encoder armExtendEncoder = new Encoder(OperationConstants.karmExtendEncoderA, OperationConstants.karmExtendEncoderB);
 
       @Override
       public void periodic() {
